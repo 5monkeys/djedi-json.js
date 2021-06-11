@@ -1,8 +1,4 @@
 .root {
-  position: 'absolute';
-  left: 2rem;
-  z-index: 300000;
-  box-sizing: border-box;
   width: calc(100% - 4rem);
   padding: 1.5rem;
   color: #eee;

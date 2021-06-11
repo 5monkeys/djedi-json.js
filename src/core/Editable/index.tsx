@@ -1,16 +1,32 @@
 import React from 'react';
 
 import { useCMS } from 'contexts/cms';
-import EditContext from 'contexts/editcontext';
+import EditContext, { useEdit } from 'contexts/editcontext';
 import Append from 'core/Append';
 // import { useGetEdit } from 'core/hooks/useGetEdit';
-import BlockEditor from 'core/BlockEditor';
-import { ComponentConfig } from 'types';
+import EditGroup from 'core/EditGroup';
+import { useGetEdit } from 'core/hooks/useGetEdit';
+import { ComponentConfig, NodeContentType, NodeTreeItem } from 'types';
 import DeleteSVG from '../../icons/delete.svg';
 import EditSVG from '../../icons/edit.svg';
 import { createEmpty } from '../../utils';
 // import HistorySVG from '../../icons/history.svg';
-import styles from './Editable.module.scss';
+import styles from './Editable.module.css';
+
+const Toolbar = () => {
+  const { setEdit, remove } = useEdit();
+
+  return (
+    <span className={styles.toolbar}>
+      <button onClick={() => setEdit(v => !v)}>
+        <EditSVG fill="currentColor" />
+      </button>
+      <button onClick={remove}>
+        <DeleteSVG fill="currentColor" />
+      </button>
+    </span>
+  );
+};
 
 /**
  * Editable, wraps the child component with some tooling for talking to the admin.
@@ -18,11 +34,12 @@ import styles from './Editable.module.scss';
  * @param config a Config for a single Component.
  * @returns a rendered component
  */
+
 const Editable: React.FC<{
   config: ComponentConfig;
-  data?: Record<string, any>;
+  tree: NodeTreeItem;
   path: string[];
-}> = ({ data, config, children, path = [] }) => {
+}> = ({ tree, config, children, path = [] }) => {
   // A ref to the parent. Could potentially be used to pin something or measure it to allow content-jumping.
   const ref = React.useRef<HTMLSpanElement>(null);
 
@@ -31,45 +48,40 @@ const Editable: React.FC<{
   // const edit = useGetEdit(config.type);
 
   // STATES
-  // landing in this component with editing set to true should be possible.
-  const [editing, setEditing] = React.useState(false);
-  // const [position, setPosition] = React.useState({});
-  // the state of the component. Can be updated from above or from the edit.
-  // const [state, setState] = React.useState(passedData || {});
+  const [editing, setEdit] = React.useState(false);
   const [over, setOver] = React.useState(false);
+  const editConfig = useGetEdit(tree.type);
 
-  // EFFECTS
-  // keep in sync with data from above.
-  // React.useEffect(() => {
-  //   passedData && setState(passedData);
-  // }, [passedData]);
+  console.log('CONFIG', editConfig);
 
   // DERIVED
   const { Component, content } = config;
 
   const hasChild = Object.values(content).some((c: ComponentConfig) => c.type === 'input/children'); // todo: Use a nice way to find all active child-like input types
 
-  const appendNode = (type: string) =>
-    setTree({ payload: createEmpty(type), type: 'add', path: [...path, 'content', 'children'] });
+  const append = React.useCallback(
+    (type: string) =>
+      setTree({ payload: createEmpty(type), type: 'add', path: [...path, 'content', 'children'] }),
+    [path, setTree]
+  );
 
-  const patch = (payload: Record<string, any>) => {
-    setTree({ payload: { ...data, ...payload }, path, type: 'patch' });
-  };
+  const patch = React.useCallback(
+    (content: NodeContentType) => {
+      setTree({ payload: { ...tree, content }, path, type: 'patch' });
+    },
+    [path, tree, setTree]
+  );
 
-  const remove = () => setTree({ type: 'delete', path });
+  const remove = React.useCallback(() => setTree({ type: 'delete', path }), [path, setTree]);
 
   const toggleOpen = (bool: boolean) => {
     setOver(bool);
   };
 
   return (
-    <EditContext.Provider value={{ editing, data, setEditing, patch, path, ref }}>
+    <EditContext.Provider value={{ editing, tree, setEdit, patch, remove, path, ref, append }}>
       <span
         ref={ref}
-        // onClick={e => {
-        //   e.stopPropagation();
-        //   setEditing(v => !v);
-        // }}
         className={styles.root}
         onMouseEnter={e => {
           e.stopPropagation();
@@ -81,37 +93,22 @@ const Editable: React.FC<{
         }}
       >
         <Component
-          {...data}
+          {...(tree?.content || {})}
           {...(hasChild
             ? {
                 children: (
                   <>
                     {children}
-                    <Append onClick={appendNode} config={config} />
+                    <Append onClick={append} config={config} />
                   </>
                 ),
               }
             : {})}
         />
 
-        {over && (
-          <span
-            className={styles.toolbar}
-            // style={{
-            //   right: `${position.left + position.height / 2}px`,
-            //   top: `${document.scrollTop + position.top + position.width / 2}px`,
-            // }}
-          >
-            <button onClick={() => setEditing(v => !v)}>
-              <EditSVG fill="currentColor" />
-            </button>
-            <button onClick={remove}>
-              <DeleteSVG fill="currentColor" />
-            </button>
-          </span>
-        )}
+        {over && <Toolbar />}
       </span>
-      {editing && <BlockEditor content={content} />}
+      {editing && <EditGroup content={content} />}
     </EditContext.Provider>
   );
 };

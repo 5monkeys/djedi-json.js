@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
-import styles from './CaptionedImage.module.scss';
+import styles from './CaptionedImage.module.css';
 
 export type CaptionedImageProps = {
   image: string;

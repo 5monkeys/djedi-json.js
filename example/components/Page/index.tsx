@@ -1,4 +1,4 @@
-import styles from './Page.module.scss';
+import styles from './Page.module.css';
 
 export interface PageProps {
   title?: string;

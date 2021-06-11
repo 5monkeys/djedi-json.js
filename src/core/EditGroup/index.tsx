@@ -1,27 +1,21 @@
 import ReactDOM from 'react-dom';
 
+import Button from 'components/Button';
+import Modal from 'components/Modal';
 import { useCMS } from 'contexts/cms';
 import { useEdit } from 'contexts/editcontext';
-import Button from 'core/components/Button';
-import styles from './BlockEditor.module.scss';
+import styles from './EditGroup.module.css';
 
-export type BlockEditorProps = {
+export type EditGroupProps = {
   content: Record<string, any>; // todo, type this correctly.
 };
 
-const BlockEditor: React.FC<BlockEditorProps> = ({ content }) => {
+const EditGroup: React.FC<EditGroupProps> = ({ content }) => {
   const { config } = useCMS();
-  const { patch, data, ref, setEditing } = useEdit();
+  const { patch, editing, tree, ref, setEdit } = useEdit();
 
-  const rect = ref?.current?.firstElementChild?.getBoundingClientRect();
-
-  return ReactDOM.createPortal(
-    <div
-      className={styles.root}
-      style={{
-        top: `${document.body.scrollTop + rect?.bottom + 15 || 15}px`,
-      }}
-    >
+  return editing ? (
+    <Modal className={styles.root}>
       {Object.entries(content).map(([k, editConfig]) => {
         // for now; opt out of displaying children as a prop here.
         // if (k === 'children') {
@@ -36,14 +30,13 @@ const BlockEditor: React.FC<BlockEditorProps> = ({ content }) => {
 
         return (
           <section className={styles.layout} key={k}>
-            <Component label={k} value={data[k]} {...editProps} onChange={handleChange} />
+            <Component label={k} value={tree.content[k]} {...editProps} onChange={handleChange} />
           </section>
         );
       })}
-      <Button onClick={() => setEditing(false)}>Close</Button>
-    </div>,
-    document.body
-  );
+      <Button onClick={() => setEdit(false)}>Close</Button>
+    </Modal>
+  ) : null;
 };
 
-export default BlockEditor;
+export default EditGroup;

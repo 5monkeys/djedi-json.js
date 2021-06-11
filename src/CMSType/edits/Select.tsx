@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { CMSConfigSettings, CMSEditProps } from 'types';
-import inputStyles from './Input.module.scss';
+import inputStyles from './Input.module.css';
 
 export interface SelectProps extends CMSConfigSettings {
   settings: Omit<React.HTMLProps<HTMLSelectElement>, 'children' | 'value'>;

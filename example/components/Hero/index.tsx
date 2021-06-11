@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
-import styles from './Hero.module.scss';
+import styles from './Hero.module.css';
 
 export interface HeroProps {
   image: string;

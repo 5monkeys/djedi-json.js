@@ -22,11 +22,11 @@ const EditorTree: React.FC<{ tree: NodeTreeItem; path?: string[] }> = ({ tree, p
   }
   // const [childKey] = Object.entries(Config.content).find(([, t]) => t.type == 'input/children');
 
-  const { children, ...props } = tree.content;
+  const { children } = tree.content;
   // const localPath = [...path, index.toString(), 'content', 'children'];
 
   return (
-    <Editable config={Config} data={props} path={path}>
+    <Editable config={Config} tree={tree} path={path}>
       {children?.map((child, i) => (
         <EditorTree tree={child} key={i} path={[...path, 'content', 'children', i.toString()]} />
       ))}

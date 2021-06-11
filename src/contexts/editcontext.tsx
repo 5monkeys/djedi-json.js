@@ -1,23 +1,33 @@
 import React, { RefObject } from 'react';
 
+import { NodeContentType, NodeTreeItem } from 'types';
+
 export type EditContextType = {
   ref: RefObject<HTMLSpanElement> | null;
   path: string[];
-  data: Record<string, any>;
-  patch: (p: Record<string, any>) => void;
-  setEditing: (v: boolean) => void;
+  tree: NodeTreeItem;
+  append: (t: string) => void;
+  remove: () => void;
+  patch: (p: NodeContentType) => void;
+  setEdit: (v: boolean) => void;
   editing: boolean;
 };
 
 const EditContext = React.createContext<EditContextType>({
   ref: null,
-  data: {},
-  setEditing: () => {
-    // not set
-  },
   editing: false,
+  tree: { content: {}, type: 'unknown' },
+  setEdit: () => {
+    // not empty
+  },
+  append: () => {
+    // not, empty
+  },
+  remove: () => {
+    // not empty
+  },
   patch: () => {
-    // not set
+    // not empty
   },
   path: [],
 });

@@ -62,7 +62,6 @@ export const treeReducer = (state: NodeTreeItem, action: TreeReducerAction) => {
       // scope
       const nstate = { ...state };
       set(nstate, action.path, action.payload);
-      console.log('PATCHED', nstate);
       return nstate;
     }
     case 'delete': {

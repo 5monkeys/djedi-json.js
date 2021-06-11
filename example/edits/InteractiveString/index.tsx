@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { CMSConfigSettings, CMSEditProps } from 'types';
-import inputStyles from './interactiveString.module.scss';
+import inputStyles from './interactiveString.module.css';
 
 export const TYPE_IDENTIFIER = 'interactive/string';
 

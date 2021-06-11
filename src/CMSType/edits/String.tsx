@@ -1,7 +1,7 @@
 import React, { HTMLAttributes } from 'react';
 
 import { CMSConfigSettings, CMSEditProps } from 'types';
-import inputStyles from './Input.module.scss';
+import inputStyles from './Input.module.css';
 
 export interface StringProps
   extends CMSConfigSettings,
