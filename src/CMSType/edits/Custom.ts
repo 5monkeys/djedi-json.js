@@ -1,11 +1,13 @@
 import { CMSConfigSettings } from 'types';
 
-export interface CustomProps extends CMSConfigSettings {
-  type: string;
+export interface IsomorphicCustom {
   isomorphic?: boolean;
 }
+export interface CustomProps extends CMSConfigSettings {
+  type: string;
+}
 
-export const type = (settings: CustomProps) => {
+export const type = (settings: CustomProps | IsomorphicCustom) => {
   return {
     isomorphic: false,
     ...settings,
