@@ -1,8 +1,9 @@
 const path = require('path');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   mode: 'production',
-  entry: { index: './src/index', CMSType: './src/CMSType/index', utils: './src/utils' },
+  entry: { index: './src/index' },
   module: {
     rules: [
       {
@@ -25,9 +26,10 @@ module.exports = {
     alias: {
       // These are handled by typescript, but not so gracefully by javascript, so let's remap it here for Webpack.
       core: path.resolve(__dirname, 'src/core/'),
-      utils: path.resolve(__dirname, 'src/utils/'),
+      utils: path.resolve(__dirname, 'src/utils.ts'),
       contexts: path.resolve(__dirname, 'src/contexts/'),
       components: path.resolve(__dirname, 'src/components/'),
+      react: path.resolve('./node_modules/react'),
     },
   },
 
@@ -36,5 +38,8 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     chunkFilename: '[name].[chunkhash].js',
     filename: '[name].js',
+    libraryTarget: 'commonjs',
   },
+  target: 'node',
+  externals: [nodeExternals()],
 };

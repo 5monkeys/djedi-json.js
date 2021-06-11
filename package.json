@@ -1,11 +1,16 @@
 {
   "name": "djedi-json",
   "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/5monkeys/djedi-json.js"
+  },
   "private": true,
   "dependencies": {
     "lodash": "^4.17.21"
   },
   "main": "dist/index.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "peerDependencies": {
     "react": "^17.0.2",
@@ -50,8 +55,6 @@
     "jest": "^27.0.3",
     "jest-dom": "^4.0.0",
     "lint-staged": "^10.5.4",
-    "mini-css-extract-plugin": "^1.6.0",
-    "normalize.css": "^4.0.0",
     "postcss": "^8.2.13",
     "postcss-custom-media": "^5.0.1",
     "postcss-custom-properties": "^5.0.2",
@@ -76,7 +79,8 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.36.2",
     "webpack-cli": "^4.6.0",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^3.11.2",
+    "webpack-node-externals": "^3.0.0"
   },
   "scripts": {
     "start": "webpack serve",

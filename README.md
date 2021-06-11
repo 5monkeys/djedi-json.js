@@ -6,21 +6,7 @@
 npm install -S djedi-json
 ```
 
-### Reskinning the admin
-
-- Simply supply a wrapper component with new styles inside of it. All admin css-variables are prefixed with `admin--`
-
-### Modularitet
-
-- Default-komponenterna som kräver dependencies bör plockas bort och läggas i separata paket. T.ex. Kan man registrera `image/imgur` eller `input/text`
-  Det gör adminet lätt och utan dependencys om man vill bygga allting själv beroende på projekt.
-
-- Gör det möjligt att styra var edits hamnar.
-- Page-komponenten ska ha en egen edit.
-
-- vid enter lägg automagiskt till en komponent
-
-# Actual README
+# README
 
 # Djedi pages frontend
 

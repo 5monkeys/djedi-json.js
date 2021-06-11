@@ -1,4 +1,4 @@
-import CMSType from '../src/CMSType';
+import { CMSType } from '../src';
 import { ComponentConfig } from '../src/types';
 import { createConfig } from '../src/utils';
 import CaptionedImage from './components/CaptionedImage';

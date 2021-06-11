@@ -13,6 +13,11 @@ export interface CMSProps {
   onSave?: (t: NodeTreeItem) => void;
 }
 
+/**
+ * 
+ TODO
+ * Add nice error messages for config faults
+ */
 const CMS: React.FC<CMSProps> = ({
   tree: passedTree = createEmpty(''),
   config: passedConfig,
