@@ -25,6 +25,7 @@ module.exports = {
     alias: {
       // These are handled by typescript, but not so gracefully by javascript, so let's remap it here for Webpack.
       core: path.resolve(__dirname, 'src/core/'),
+      utils: path.resolve(__dirname, 'src/utils/'),
       contexts: path.resolve(__dirname, 'src/contexts/'),
       components: path.resolve(__dirname, 'src/components/'),
     },

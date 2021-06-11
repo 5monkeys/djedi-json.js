@@ -1,6 +1,5 @@
 const config = require('./webpack.prod.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
@@ -9,11 +8,6 @@ module.exports = {
   mode: 'development',
   entry: './example/index.tsx',
   plugins: [
-    // new webpack.DefinePlugin({
-    //   'process.env': {
-    //     BASE_URL: JSON.stringify('http://localhost:8000'),
-    //   },
-    // }),
     new HtmlWebpackPlugin({
       title: 'Djedi-JSON Example App',
       template: './example/template.html',

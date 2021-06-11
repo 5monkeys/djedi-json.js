@@ -1,16 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import { NodeTreeItem } from 'types';
 import CMS, { createConfig } from '../src';
 import config from './config';
 
-const DUMMY_TREE = {
+const DUMMY_TREE: NodeTreeItem = {
   type: 'component/page',
   content: {
     children: [
       {
         type: 'component/heading',
-        content: { children: ['Welcome to the tutorial'] },
+        content: { children: 'Welcome to the tutorial' },
       },
       {
         type: 'component/container',

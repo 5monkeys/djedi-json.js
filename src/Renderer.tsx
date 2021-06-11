@@ -27,7 +27,9 @@ const Renderer: React.FC<RendererProps> = ({ config, tree }) => {
   return (
     <Config.Component {...props} data-uri={tree.uri}>
       {Array.isArray(children)
-        ? children.map((t, i) => <Renderer key={i} tree={t} config={config} />)
+        ? children.map((t: NodeTreeItem, i: number) => (
+            <Renderer key={i} tree={t} config={config} />
+          ))
         : children}
     </Config.Component>
   );

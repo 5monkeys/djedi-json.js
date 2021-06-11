@@ -1,4 +1,5 @@
 import React from 'react';
+import { createEmpty } from 'utils';
 
 import CMSContext from 'contexts/cms';
 import Preview from 'core/Renderer/Preview';
@@ -13,7 +14,7 @@ export interface CMSProps {
 }
 
 const CMS: React.FC<CMSProps> = ({
-  tree: passedTree = [],
+  tree: passedTree = createEmpty(''),
   config: passedConfig,
   onChange,
   onSave,

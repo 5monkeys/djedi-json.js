@@ -6,14 +6,15 @@ import inputStyles from './Input.module.css';
 export interface SelectProps extends CMSConfigSettings {
   settings: Omit<React.HTMLProps<HTMLSelectElement>, 'children' | 'value'>;
   options: Array<{ value: string; label: string } | string | number>;
+  nullable?: boolean;
 }
 
 export const TYPE_IDENTIFIER = 'input/select';
 export const type = (settings = {}) => {
   return {
-    ...settings,
     nullable: true,
     multiple: false,
+    ...settings,
     type: TYPE_IDENTIFIER,
   };
 };
