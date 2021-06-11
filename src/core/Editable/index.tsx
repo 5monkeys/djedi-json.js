@@ -50,9 +50,9 @@ const Editable: React.FC<{
   // STATES
   const [editing, setEdit] = React.useState(false);
   const [over, setOver] = React.useState(false);
-  const editConfig = useGetEdit(tree.type);
+  // const editConfig = useGetEdit(tree.type);
 
-  console.log('CONFIG', editConfig);
+  // console.log('CONFIG', editConfig);
 
   // DERIVED
   const { Component, content } = config;
@@ -60,8 +60,9 @@ const Editable: React.FC<{
   const hasChild = Object.values(content).some((c: ComponentConfig) => c.type === 'input/children'); // todo: Use a nice way to find all active child-like input types
 
   const append = React.useCallback(
-    (type: string) =>
-      setTree({ payload: createEmpty(type), type: 'add', path: [...path, 'content', 'children'] }),
+    (type: string) => {
+      setTree({ payload: createEmpty(type), type: 'add', path: [...path, 'content', 'children'] });
+    },
     [path, setTree]
   );
 

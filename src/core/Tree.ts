@@ -47,14 +47,7 @@ export const treeReducer = (state: NodeTreeItem, action: TreeReducerAction) => {
       const nstate = { ...state };
       const parent = get(nstate, action.path, []);
 
-      if (Array.isArray(parent.children)) {
-        // if the return is an array, push to it ...
-        parent.children.push(action.payload);
-      } else {
-        //... Otherwise create an array where applicable.
-        parent.children = [action.payload];
-      }
-      set(nstate, action.path, parent ? [...parent, action.payload] : [action.payload]);
+      set(nstate, action.path, [...parent, action.payload]);
 
       return nstate;
     }

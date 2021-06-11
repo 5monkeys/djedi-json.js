@@ -7,9 +7,7 @@ const Preview: React.FC = () => {
   const { tree } = useCMS();
 
   return (
-    <IsolateStyles className={styles.isolated}>
-      <EditorTree tree={tree} />
-    </IsolateStyles>
+    <IsolateStyles className={styles.isolated}>{tree && <EditorTree tree={tree} />}</IsolateStyles>
   );
 };
 

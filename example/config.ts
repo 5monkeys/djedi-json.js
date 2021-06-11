@@ -10,6 +10,7 @@ import InteractiveString, {
   interactive,
   TYPE_IDENTIFIER as InteractiveStringType,
 } from './edits/InteractiveString';
+import Unsplash, { TYPE_IDENTIFIER as UNSPLASHED_TYPE, UnsplashedImage } from './edits/Unsplashed';
 
 const components: ComponentConfig[] = [
   {
@@ -38,7 +39,6 @@ const components: ComponentConfig[] = [
     Component: CaptionedImage,
     type: 'component/caption-image',
     content: {
-      image: CMSType.image(),
       text: CMSType.string({ label: 'description' }),
       background: CMSType.select({ options: ['black', 'grey', 'white'] }),
     },
@@ -48,8 +48,8 @@ const components: ComponentConfig[] = [
     Component: Hero,
     type: 'component/hero',
     content: {
-      image: CMSType.image({ label: 'Hero background' }),
       text: CMSType.string({ label: 'Hero text' }),
+      image: UnsplashedImage(),
     },
   },
   {
@@ -64,6 +64,11 @@ const components: ComponentConfig[] = [
 
 const config = createConfig({
   components,
+  edit: {
+    [UNSPLASHED_TYPE]: {
+      Component: Unsplash,
+    },
+  },
 });
 
 export default config;

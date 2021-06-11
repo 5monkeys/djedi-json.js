@@ -4,23 +4,14 @@ import cx from 'classnames';
 import styles from './Hero.module.css';
 
 export interface HeroProps {
-  image: string;
+  image?: string;
   text?: string;
 }
 
-const Hero: React.FC<HeroProps> = ({ text, image }) => {
-  const [loaded, setLoaded] = React.useState(false);
-
+const Hero: React.FC<HeroProps> = ({ text, image = '' }) => {
   return (
-    <div className={styles.root}>
-      <span className={styles.size}>
-        <img
-          src={image}
-          onLoad={() => setLoaded(true)}
-          className={cx(styles.image, { [styles.loaded]: loaded })}
-        />
-        <h1>{text && text}</h1>
-      </span>
+    <div className={styles.root} style={{ backgroundImage: `url(${image})` }}>
+      <h1>{text && text}</h1>
     </div>
   );
 };

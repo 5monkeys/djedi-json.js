@@ -12,6 +12,7 @@ export const TYPE_IDENTIFIER = 'input/select';
 export const type = (settings = {}) => {
   return {
     ...settings,
+    nullable: true,
     multiple: false,
     type: TYPE_IDENTIFIER,
   };
@@ -22,6 +23,7 @@ const Select: React.FC<SelectProps & CMSEditProps<string | string[]>> = ({
   options,
   value,
   settings,
+  nullable,
   onChange,
 }) => {
   const values = options.map(option => {
@@ -45,6 +47,7 @@ const Select: React.FC<SelectProps & CMSEditProps<string | string[]>> = ({
           onChange(e.target.value);
         }}
       >
+        {nullable && <option value={undefined}></option>}
         {values.map(o => (
           <option key={o.value} value={o.value}>
             {o.label}

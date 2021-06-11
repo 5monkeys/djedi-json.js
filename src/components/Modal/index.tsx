@@ -3,17 +3,25 @@ import cx from 'classnames';
 
 import styles from './Modal.module.css';
 
-export type ModalProps = React.DetailedHTMLProps<
-  React.HTMLAttributes<HTMLDivElement>,
-  HTMLDivElement
->;
-const Modal: React.FC<ModalProps> = ({ children, ...props }) => {
+export interface ModalProps
+  extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+  onClose?: () => void;
+}
+const Modal: React.FC<ModalProps> = ({ children, onClose, className, ...props }) => {
   return (
-    <div className={styles.backdrop}>
-      <div {...props}>
-        <div className={styles.inner}>{children}</div>
+    <>
+      <style>{`body{overflow: "hidden";}`}</style>
+      <div
+        className={styles.backdrop}
+        onClick={() => {
+          onClose && onClose();
+        }}
+      >
+        <div className={cx(styles.root, className)} {...props}>
+          {children}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -13,18 +13,6 @@ const DUMMY_TREE = {
         content: { children: ['Welcome to the tutorial'] },
       },
       {
-        type: 'component/image',
-        content: { src: 'https://i.imgur.com/fGjBzsD.jpeg' },
-      },
-      {
-        type: 'component/text',
-        content: {
-          children: [
-            '<h2>Om djedi</h2> <p>Djedi är ett datorprogram för editering av hemsidor. Som MS Word fast för webben</p> <a href="http://www.microsoft.com">Till Microsofts hjälpsidor</a>',
-          ],
-        },
-      },
-      {
         type: 'component/container',
         content: {
           children: [{ type: 'component/heading', content: { children: 'hallå där' } }],
@@ -33,9 +21,8 @@ const DUMMY_TREE = {
       {
         type: 'component/caption-image',
         content: {
-          image: 'https://placekitten.com/200/200',
           text: 'Interesting facts about CSS',
-          color: 'grey',
+          background: 'black',
         },
       },
       {
