@@ -1,9 +1,10 @@
 import React from 'react';
+// import { useGetEdit } from 'core/hooks/useGetEdit';
+import cx from 'classnames';
 
 import { useCMS } from 'contexts/cms';
 import EditContext, { useEdit } from 'contexts/editcontext';
 import Append from 'core/Append';
-// import { useGetEdit } from 'core/hooks/useGetEdit';
 import EditGroup from 'core/EditGroup';
 import { ComponentConfig, NodeContentType, NodeTreeItem } from 'types';
 import DeleteSVG from '../../icons/delete.svg';
@@ -11,21 +12,6 @@ import EditSVG from '../../icons/edit.svg';
 import { createEmpty } from '../../utils';
 // import HistorySVG from '../../icons/history.svg';
 import styles from './Editable.module.css';
-
-const Toolbar = () => {
-  const { setEdit, remove } = useEdit();
-
-  return (
-    <span className={styles.toolbar}>
-      <button onClick={() => setEdit(v => !v)}>
-        <EditSVG fill="currentColor" />
-      </button>
-      <button onClick={remove}>
-        <DeleteSVG fill="currentColor" />
-      </button>
-    </span>
-  );
-};
 
 /**
  * Editable, wraps the child component with some tooling for talking to the admin.
@@ -48,10 +34,9 @@ const Editable: React.FC<{
   // STATES
   const [editing, setEdit] = React.useState(false);
   const [over, setOver] = React.useState(false);
-  
-  
+
   // DERIVED
-  const { Component, content={} } = config;
+  const { Component, content = {} } = config;
   const { isomorphic } = content;
 
   const hasChild = Object.values(content).some((c: ComponentConfig) => c.type === 'input/children'); // todo: Use a nice way to find all active child-like input types
@@ -76,42 +61,53 @@ const Editable: React.FC<{
     setOver(bool);
   };
 
-
   return (
     <EditContext.Provider value={{ editing, tree, setEdit, patch, remove, path, ref, append }}>
-      {isomorphic ? 
-      <Component onChange={patch} {...tree.content} />
-      :<>
-      <span
-        ref={ref}
-        className={styles.root}
-        onMouseEnter={e => {
-          e.stopPropagation();
-          toggleOpen(true);
-        }}
-        onMouseLeave={e => {
-          e.stopPropagation();
-          toggleOpen(false);
-        }}
-      >
-        <Component
-          {...(tree?.content || {})}
-          {...(hasChild
-            ? {
-                children: (
-                  <>
-                    {children}
-                    <Append onClick={append} config={config} />
-                  </>
-                ),
-              }
-            : {})}
-        />
+      {isomorphic ? (
+        <Component onChange={patch} {...tree.content} />
+      ) : (
+        <>
+          <span
+            ref={ref}
+            onClick={config.editOnClick ? () => setEdit(true) : undefined}
+            className={cx(styles.root, { [styles.clickable]: config.editOnClick })}
+            onMouseEnter={e => {
+              e.stopPropagation();
+              toggleOpen(true);
+            }}
+            onMouseLeave={e => {
+              e.stopPropagation();
+              toggleOpen(false);
+            }}
+          >
+            <Component
+              {...(tree?.content || {})}
+              {...(hasChild
+                ? {
+                    children: (
+                      <>
+                        {children}
+                        <Append onClick={append} config={config} />
+                      </>
+                    ),
+                  }
+                : {})}
+            />
 
-        {over && <Toolbar />}
-      </span>
-      {editing && <EditGroup content={content} />}
-      </>
+            {over && (
+              <span className={styles.toolbar}>
+                <button onClick={() => setEdit(v => !v)}>
+                  <EditSVG fill="currentColor" />
+                </button>
+                <button onClick={remove}>
+                  <DeleteSVG fill="currentColor" />
+                </button>
+              </span>
+            )}
+          </span>
+          {editing && <EditGroup content={content} />}
+        </>
+      )}
     </EditContext.Provider>
   );
 };

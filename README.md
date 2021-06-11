@@ -42,7 +42,7 @@ npm install -S djedi-json
 
 ### Common parameters
 
-### CMSType/Image
+### CMSType/Children
 
 ### CMSType/Text
 

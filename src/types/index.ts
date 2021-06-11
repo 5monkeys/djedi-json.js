@@ -4,6 +4,7 @@ export interface ComponentConfig {
   Component: React.FunctionComponent<any>;
   type: string;
   content: Record<string, any>;
+  editOnClick?: boolean;
 }
 
 export interface Config {
@@ -25,13 +26,13 @@ export interface CMSEditProps<T> {
 
 export interface CMSConfigSettings {
   label?: string;
-  inject?: boolean;
-  swap?: boolean;
+  // inject?: boolean;
+  // swap?: boolean;
 }
 
 // Children can be either an array of NodeTreeItems or something else used by the component itself.
 export interface NodeContentType extends Record<string, any> {
-  children?: NodeTreeItem[];
+  children?: NodeTreeItem[] | string | string[];
 }
 
 // When saved the NodeItems receive a unique uri.

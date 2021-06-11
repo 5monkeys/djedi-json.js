@@ -4,6 +4,8 @@
   color: #231433;
 
   input {
+    display: inline-block;
+    width: auto;
     font-size: inherit;
     font-weight: inherit;
     line-height: inherit;

@@ -28,3 +28,7 @@
     }
   }
 }
+
+.clickable {
+  cursor: pointer;
+}

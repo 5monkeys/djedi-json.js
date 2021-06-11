@@ -6,10 +6,6 @@ import Grid from './components/Grid';
 import Heading from './components/Heading';
 import Hero from './components/Hero';
 import Page from './components/Page';
-import InteractiveString, {
-  interactive,
-  TYPE_IDENTIFIER as InteractiveStringType,
-} from './edits/InteractiveString';
 import Unsplash, { TYPE_IDENTIFIER as UNSPLASHED_TYPE, UnsplashedImage } from './edits/Unsplashed';
 
 const components: ComponentConfig[] = [
@@ -30,13 +26,14 @@ const components: ComponentConfig[] = [
     Component: Heading,
     description: 'A big heading component',
     type: 'component/heading',
-    content: interactive({ isomorphic: true }),
+    content: CMSType.custom({ isomorphic: true }),
   },
   {
     title: 'Captioned image',
     description: 'A figure element with a caption',
     Component: CaptionedImage,
     type: 'component/caption-image',
+    editOnClick: true,
     content: {
       text: CMSType.string({ label: 'description' }),
       background: CMSType.select({ options: ['black', 'grey', 'white'] }),
