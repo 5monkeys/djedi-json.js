@@ -5,8 +5,9 @@ import inputStyles from './interactiveString.module.css';
 
 export const TYPE_IDENTIFIER = 'interactive/string';
 
-export const interactive = () => {
+export const interactive = (settings = {}) => {
   return {
+    ...settings,
     type: TYPE_IDENTIFIER,
   };
 };

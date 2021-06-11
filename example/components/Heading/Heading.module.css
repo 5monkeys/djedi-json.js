@@ -2,4 +2,13 @@
   font-size: 2rem;
   line-height: 1.5rem;
   color: #231433;
+
+  input {
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    color: inherit;
+    background: transparent;
+    border: none;
+  }
 }

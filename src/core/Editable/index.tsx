@@ -5,7 +5,6 @@ import EditContext, { useEdit } from 'contexts/editcontext';
 import Append from 'core/Append';
 // import { useGetEdit } from 'core/hooks/useGetEdit';
 import EditGroup from 'core/EditGroup';
-import { useGetEdit } from 'core/hooks/useGetEdit';
 import { ComponentConfig, NodeContentType, NodeTreeItem } from 'types';
 import DeleteSVG from '../../icons/delete.svg';
 import EditSVG from '../../icons/edit.svg';
@@ -45,17 +44,15 @@ const Editable: React.FC<{
 
   // CONTEXTS
   const { setTree } = useCMS();
-  // const edit = useGetEdit(config.type);
 
   // STATES
   const [editing, setEdit] = React.useState(false);
   const [over, setOver] = React.useState(false);
-  // const editConfig = useGetEdit(tree.type);
-
-  // console.log('CONFIG', editConfig);
-
+  
+  
   // DERIVED
-  const { Component, content } = config;
+  const { Component, content={} } = config;
+  const { isomorphic } = content;
 
   const hasChild = Object.values(content).some((c: ComponentConfig) => c.type === 'input/children'); // todo: Use a nice way to find all active child-like input types
 
@@ -79,8 +76,12 @@ const Editable: React.FC<{
     setOver(bool);
   };
 
+
   return (
     <EditContext.Provider value={{ editing, tree, setEdit, patch, remove, path, ref, append }}>
+      {isomorphic ? 
+      <Component onChange={patch} {...tree.content} />
+      :<>
       <span
         ref={ref}
         className={styles.root}
@@ -110,6 +111,7 @@ const Editable: React.FC<{
         {over && <Toolbar />}
       </span>
       {editing && <EditGroup content={content} />}
+      </>
     </EditContext.Provider>
   );
 };

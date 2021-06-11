@@ -25,12 +25,11 @@ const components: ComponentConfig[] = [
       sub: CMSType.string(),
     },
   },
-
   {
     title: 'Heading',
     Component: Heading,
     description: 'A big heading component',
-    type: 'input/heading',
+    type: 'component/heading',
     content: interactive({ isomorphic: true }),
   },
   {
