@@ -1,0 +1,12 @@
+.root {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 2rem;
+  width: 100%;
+  max-width: 1800px;
+  min-height: 300px;
+  padding: 2rem;
+  margin: 0 auto;
+  background: greenyellow;
+}

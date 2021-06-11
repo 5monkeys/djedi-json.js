@@ -1,0 +1,8 @@
+.sass-cache
+node_modules
+.DS_Store
+*.swp
+.editorconfig
+.eslintcache
+.stylelintcache
+dist

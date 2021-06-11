@@ -1,0 +1,24 @@
+.root {
+  position: 'absolute';
+  left: 2rem;
+  z-index: 300000;
+  box-sizing: border-box;
+  width: calc(100% - 4rem);
+  padding: 1.5rem;
+  color: #eee;
+  background: rgba(5, 0, 0, 0.9);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.8);
+
+  & > * + * {
+    margin-top: 1rem;
+  }
+}
+
+.layout {
+  display: block;
+
+  & > * + * {
+    margin-top: 1rem;
+  }
+}

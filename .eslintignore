@@ -1,0 +1,11 @@
+postcss.config.js
+.eslintrc
+.prettierrc
+.json
+node_modules/
+next.config.js
+jest/
+*.yml
+*.d.ts
+js/lib/*.js
+dist/*
