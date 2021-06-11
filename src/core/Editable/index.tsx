@@ -1,9 +1,8 @@
 import React from 'react';
-// import { useGetEdit } from 'core/hooks/useGetEdit';
 import cx from 'classnames';
 
 import { useCMS } from 'contexts/cms';
-import EditContext, { useEdit } from 'contexts/editcontext';
+import EditContext from 'contexts/editcontext';
 import Append from 'core/Append';
 import EditGroup from 'core/EditGroup';
 import { ComponentConfig, NodeContentType, NodeTreeItem } from 'types';

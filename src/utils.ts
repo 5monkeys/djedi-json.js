@@ -4,12 +4,12 @@ import { DEFAULT_EDIT_MAP } from './CMSType/CMSTypes';
 export const validateConfig = (config: Config) => {
   // check if the edit type exists.
   config.components.every((cc: ComponentConfig) => {
-    return Object.entries(cc.content).every(([k, { type }]) => {
+    return Object.entries(cc.content).every(([, { type }]) => {
       if (config.edit[type]) {
-        console.log(`%c✅ ${cc.type}:${k} validated as ${type}`, 'color: darkgreen');
+        // console.log(`%c✅ ${cc.type}:${k} validated as ${type}`, 'color: darkgreen');
         return true;
       }
-      console.log(`%c❌ edit type missing for ${cc.type}`, 'color: red');
+      // console.log(`%c❌ edit type missing for ${cc.type}`, 'color: red');
       return false;
     });
   });
