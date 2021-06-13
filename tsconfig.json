@@ -15,7 +15,8 @@
     "noUnusedParameters": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
-    "outDir": "./dist",
+    "outDir": "./dist/esm",
+    "suppressImplicitAnyIndexErrors": true,
     "resolveJsonModule": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
@@ -23,5 +24,6 @@
     "jsx": "react-jsx",
     "declaration": true
   },
-  "include": ["src/types/*.ts", "src/types/*.d.ts", "src", "example", "types/*.d.ts"]
+  "include": ["src"],
+  "exclude": ["node_modules", "example"]
 }
