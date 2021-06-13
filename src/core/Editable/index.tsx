@@ -1,15 +1,13 @@
 import React from 'react';
 import cx from 'classnames';
 
-import { useCMS } from 'contexts/cms';
-import EditContext from 'contexts/editcontext';
-import Append from 'core/Append';
-import EditGroup from 'core/EditGroup';
-import { ComponentConfig, NodeContentType, NodeTreeItem } from 'types';
+import { useCMS } from '../../contexts/cms';
+import EditContext from '../../contexts/editcontext';
 import DeleteSVG from '../../icons/delete.svg';
 import EditSVG from '../../icons/edit.svg';
-import { createEmpty } from '../../utils';
-// import HistorySVG from '../../icons/history.svg';
+import Append from '../Append';
+import EditGroup from '../EditGroup';
+import { createEmpty } from '../Node';
 import styles from './Editable.module.css';
 
 /**
@@ -99,7 +97,7 @@ const Editable: React.FC<{
                   <EditSVG fill="currentColor" />
                 </button>
                 <button onClick={remove}>
-                  <DeleteSVG fill="currentColor" />
+                  <DeleteSVG fill="currentColor" />{' '}
                 </button>
               </span>
             )}

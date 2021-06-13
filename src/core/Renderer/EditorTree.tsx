@@ -1,6 +1,7 @@
-import { useCMS } from 'contexts/cms';
-import Editable from 'core/Editable';
-import { NodeTreeItem } from 'types';
+import React from 'react';
+
+import { useCMS } from '../../contexts/cms';
+import Editable from '../Editable';
 
 /**
  *

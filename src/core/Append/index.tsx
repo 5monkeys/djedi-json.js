@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { useCMS } from 'contexts/cms';
-import { ComponentConfig } from 'types';
+import { useCMS } from '../../contexts/cms';
 import styles from './Append.module.css';
 
 type AppendProps = {

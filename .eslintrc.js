@@ -79,6 +79,7 @@ module.exports = {
     '@typescript-eslint/no-this-alias': 'warn',
     'no-empty': 'warn',
     'no-prototype-builtins': 'warn',
+    '@typescript-eslint/ban-ts-comment': 'off',
   },
   settings: {
     react: {

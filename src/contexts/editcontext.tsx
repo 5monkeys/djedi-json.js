@@ -1,7 +1,5 @@
 import React, { RefObject } from 'react';
 
-import { NodeContentType, NodeTreeItem } from 'types';
-
 export type EditContextType = {
   ref: RefObject<HTMLSpanElement> | null;
   path: string[];

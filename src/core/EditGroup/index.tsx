@@ -1,10 +1,9 @@
 import React from 'react';
 
-import Button from 'components/Button';
-import Modal from 'components/Modal';
-import { useCMS } from 'contexts/cms';
-import { useEdit } from 'contexts/editcontext';
-import { ComponentConfig } from 'types';
+import Button from '../../components/Button';
+import Modal from '../../components/Modal';
+import { useCMS } from '../../contexts/cms';
+import { useEdit } from '../../contexts/editcontext';
 import styles from './EditGroup.module.css';
 
 export type EditGroupProps = {

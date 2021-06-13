@@ -1,10 +1,9 @@
 import React from 'react';
-import { createEmpty } from 'utils';
 
-import CMSContext from 'contexts/cms';
-import Preview from 'core/Renderer/Preview';
-import { treeReducer } from 'core/Tree';
-import { Config, NodeTreeItem } from 'types';
+import CMSContext from '../../contexts/cms';
+import { createEmpty } from '../Node';
+import Preview from '../Renderer/Preview';
+import { reducer } from '../Tree';
 
 export interface CMSProps {
   config: Config;
@@ -24,7 +23,7 @@ const CMS: React.FC<CMSProps> = ({
   onChange,
   onSave,
 }) => {
-  const [tree, setTree] = React.useReducer(treeReducer, passedTree);
+  const [tree, setTree] = React.useReducer(reducer, passedTree);
   const [config, setConfig] = React.useState<Config>(passedConfig);
 
   React.useEffect(() => {

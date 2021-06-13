@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { Config, NodeTreeItem } from 'types';
-
 export interface RendererProps {
   tree?: NodeTreeItem;
   config: Config;

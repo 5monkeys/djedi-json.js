@@ -1,6 +1,6 @@
+import CMSType from './CMSType';
 import CMS from './core/CMS';
-export { default as Renderer } from './Renderer';
-export { default as CMSType } from './CMSType';
-export { createConfig } from './utils';
+import { createConfig, validateConfig } from './core/config';
+import Renderer from './Renderer';
 
-export default CMS;
+export { CMS, CMSType, Renderer, createConfig, validateConfig };

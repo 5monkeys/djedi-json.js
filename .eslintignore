@@ -8,4 +8,4 @@ jest/
 *.yml
 *.d.ts
 js/lib/*.js
-dist/*
+build/*
