@@ -2,6 +2,6 @@ import { CMSConfigSettings } from '../../types';
 
 export interface ChildrenProps extends Partial<CMSConfigSettings> {
   allowed?: string[];
-  injectButton?: boolean;
+  append?: boolean;
   self?: boolean;
 }

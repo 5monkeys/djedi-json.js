@@ -13,8 +13,9 @@ const components = [
     Component: Page,
     description: 'Page component',
     type: 'component/page',
+    removable: false,
     content: {
-      children: CMSType.children({ label: 'contents', self: false, injectButton: false }),
+      children: CMSType.children({ label: 'contents', self: false, append: false }),
       title: CMSType.string({ label: 'Meta Title of the page' }),
       meta: CMSType.string({ label: 'Meta description' }),
       sub: CMSType.string({ label: 'Subtitle' }),

@@ -16,6 +16,14 @@ export const validateConfig = (config: Config) => {
   });
 };
 
+export const createNodeConfig = (passedConfig: ComponentConfig) => {
+  return {
+    removable: true,
+    editable: true,
+    ...passedConfig,
+  };
+};
+
 export const createConfig = (passedConfig: Partial<Config>): Config => {
   const edit = {
     ...DEFAULT_EDIT_MAP,
@@ -24,7 +32,7 @@ export const createConfig = (passedConfig: Partial<Config>): Config => {
   };
   const config = {
     ...passedConfig,
-    components: [...(passedConfig?.components || [])],
+    components: [...(passedConfig?.components || [])].map(createNodeConfig),
     edit: edit,
   };
 

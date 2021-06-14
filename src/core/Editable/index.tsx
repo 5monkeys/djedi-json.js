@@ -90,21 +90,25 @@ const Editable: React.FC<{
                     children: (
                       <>
                         {children}
-                        {childrenConfig.injectButton && <Append onClick={append} config={config} />}
+                        {childrenConfig.append && <Append onClick={append} config={config} />}
                       </>
                     ),
                   }
                 : {})}
             />
 
-            {over && (
+            {Boolean(over && (config.removable || config.editable)) && (
               <span className={styles.toolbar}>
-                <button onClick={() => setEdit(v => !v)}>
-                  <EditSVG fill="currentColor" />
-                </button>
-                <button onClick={remove}>
-                  <DeleteSVG fill="currentColor" />{' '}
-                </button>
+                {config.editable && (
+                  <button onClick={() => setEdit(v => !v)}>
+                    <EditSVG fill="currentColor" />
+                  </button>
+                )}
+                {config.removable && (
+                  <button onClick={remove}>
+                    <DeleteSVG fill="currentColor" />
+                  </button>
+                )}
               </span>
             )}
           </span>
