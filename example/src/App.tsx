@@ -5,6 +5,9 @@ import config from './config';
 const DUMMY_TREE = {
   type: 'component/page',
   content: {
+    title: 'Example page',
+    meta: 'Meta title',
+    sub: 'This is a pluggable component admin',
     children: [
       {
         type: 'component/heading',

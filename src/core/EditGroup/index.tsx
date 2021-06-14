@@ -22,7 +22,7 @@ const EditGroup: React.FC<EditGroupProps> = ({ content }) => {
   return editing ? (
     <Modal>
       <div className={styles.separate}>
-        <h2>{c?.title || ''}</h2>
+        <h2 className={styles.title}>{c?.title || ''}</h2>
         <p>{c?.description || ''}</p>
         {Object.entries(content).map(([k, editConfig]) => {
           // for now; opt out of displaying children as a prop here.

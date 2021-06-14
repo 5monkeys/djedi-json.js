@@ -7,9 +7,18 @@ declare interface ComponentConfig {
   editOnClick?: boolean;
 }
 
+declare interface LeanComponentConfig {
+  Component: React.FunctionComponent<any>;
+  type: string;
+}
+
 declare interface Config {
   components: ComponentConfig[];
   edit: EditConfig;
+}
+
+declare interface LeanConfig {
+  components: LeanComponentConfig[]
 }
 
 declare type EditConfigEntry = {

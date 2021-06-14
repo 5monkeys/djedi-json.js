@@ -10,18 +10,18 @@ export type EmptyAction = {
 export type PatchAction = {
   type: 'patch';
   payload: NodeTreeItem;
-  path: string[];
+  path: string[] | string;
 };
 
 export type AddAction = {
   type: 'add';
   payload: NodeTreeItem;
-  path: string[];
+  path: string[] | string;
 };
 
 export type DeleteAction = {
   type: 'delete';
-  path: string[];
+  path: string[] | string;
 };
 
 export type TreeReducerAction =

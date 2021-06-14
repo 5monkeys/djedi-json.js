@@ -8,8 +8,10 @@ export const reducer = (state: NodeTreeItem, action: TreeReducerAction) => {
   switch (action.type) {
     case 'replace':
       return action.payload;
+
     case 'empty':
       return createEmpty('');
+
     case 'add': {
       const nstate = { ...state };
       const parent = get(nstate, action.path, []);
@@ -31,6 +33,7 @@ export const reducer = (state: NodeTreeItem, action: TreeReducerAction) => {
 
       return cleanTree(nstate);
     }
+
     default:
       throw new Error('Invalid action');
   }

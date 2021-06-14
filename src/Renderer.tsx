@@ -2,7 +2,7 @@ import React from 'react';
 
 export interface RendererProps {
   tree?: NodeTreeItem;
-  config: Config;
+  config: LeanConfig | Config;
 }
 
 const Renderer: React.FC<RendererProps> = ({ config, tree }) => {
@@ -21,7 +21,6 @@ const Renderer: React.FC<RendererProps> = ({ config, tree }) => {
 
   const { children, ...props } = tree.content;
 
-  // This item has no children. Render as is.
   return (
     <Config.Component {...props} data-uri={tree.uri}>
       {Array.isArray(children)
