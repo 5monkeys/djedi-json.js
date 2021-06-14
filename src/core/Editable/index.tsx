@@ -49,7 +49,7 @@ const Editable: React.FC<{
     (content: NodeContentType) => {
       setTree({
         payload: { ...tree, content },
-        path: path.length === 0 ? '' : path,
+        path,
         type: 'patch',
       });
     },

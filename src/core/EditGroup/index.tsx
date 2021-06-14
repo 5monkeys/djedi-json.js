@@ -20,7 +20,7 @@ const EditGroup: React.FC<EditGroupProps> = ({ content }) => {
   };
 
   return editing ? (
-    <Modal>
+    <Modal onClose={() => setEdit(false)}>
       <div className={styles.separate}>
         <h2 className={styles.title}>{c?.title || ''}</h2>
         <p>{c?.description || ''}</p>

@@ -17,7 +17,7 @@ const Modal: React.FC<ModalProps> = ({ children, onClose, className, ...props })
           onClose && onClose();
         }}
       >
-        <div className={cx(styles.root, className)} {...props}>
+        <div className={cx(styles.root, className)} {...props} onClick={e => e.stopPropagation()}>
           {children}
         </div>
       </div>

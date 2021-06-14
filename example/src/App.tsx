@@ -34,10 +34,12 @@ const DUMMY_TREE = {
   },
 };
 
+const c = createConfig(config);
+
 function App() {
   return (
     <div className="App">
-      <CMS config={createConfig(config)} tree={DUMMY_TREE} />
+      <CMS config={c} tree={DUMMY_TREE} />
     </div>
   );
 }

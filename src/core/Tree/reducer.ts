@@ -22,7 +22,14 @@ export const reducer = (state: NodeTreeItem, action: TreeReducerAction) => {
 
     case 'patch': {
       const nstate = { ...state };
-      set(nstate, action.path, action.payload);
+
+      if (action.path.length > 0) {
+        set(nstate, action.path, action.payload);
+      } else {
+        Object.entries(action.payload).forEach(([k, v]) => {
+          nstate[k] = v;
+        });
+      }
 
       return nstate;
     }
