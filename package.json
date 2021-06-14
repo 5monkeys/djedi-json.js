@@ -21,7 +21,6 @@
     "type": "git",
     "url": "https://github.com/5monkeys/djedi-json.js"
   },
-  "private": true,
   "dependencies": {
     "classnames": "^2.3.1",
     "lodash-es": "^4.17.21",
