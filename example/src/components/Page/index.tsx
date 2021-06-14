@@ -18,7 +18,7 @@ const Page: React.FC<PageProps> = ({
         <h1>{title}</h1>
         <p>{sub}</p>
       </nav>
-      <main>{children}</main>
+      <main className={styles.main}>{children}</main>
     </>
   );
 };

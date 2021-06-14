@@ -11,7 +11,7 @@ export type CaptionedImageProps = {
 
 const CaptionedImage: React.FC<CaptionedImageProps> = ({
   background = 'white',
-  image = 'http://placekitten.com/200/200',
+  image = 'http://placekitten.com/300/200',
   text = 'caption',
 }) => {
   return (

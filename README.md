@@ -8,6 +8,8 @@ npm install -S djedi-json
 
 # README
 
+Pluggable DIY-admin able to utilize existing components from your frontend.
+
 # Djedi pages frontend
 
 # Basic setup
@@ -29,10 +31,6 @@ npm install -S djedi-json
 ### Common parameters
 
 ### CMSType/Children
-
-### CMSType/Text
-
-slate
 
 ### CMSType/String
 

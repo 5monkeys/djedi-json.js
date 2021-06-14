@@ -1,1 +1,10 @@
-example
+example/
+.vscode/
+.eslintignore
+*.test.ts
+.prettierrc
+.stylelintignore
+.stylelintrc.js
+postcss.config.js
+rollup.config.js
+tsconfig.json
