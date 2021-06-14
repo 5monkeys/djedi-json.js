@@ -1,14 +1,12 @@
 # Djedi - JSON
 
+Pluggable DIY-admin able to utilize existing components from your frontend.
+
 ### installing
 
 ```
-npm install -S djedi-json
+npm install -S djedi-json react react-dom
 ```
-
-# README
-
-Pluggable DIY-admin able to utilize existing components from your frontend.
 
 # Djedi pages frontend
 
