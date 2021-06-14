@@ -18,6 +18,7 @@ export const validateConfig = (config: Config) => {
 
 export const createNodeConfig = (passedConfig: ComponentConfig) => {
   return {
+    icon: null,
     removable: true,
     editable: true,
     ...passedConfig,

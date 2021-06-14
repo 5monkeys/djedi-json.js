@@ -1,8 +1,10 @@
+
 declare interface ComponentConfig {
   title: string;
   description?: string;
   editable: boolean;
   removable: boolean;
+  icon?: React.ReactElement;
   Component: React.FunctionComponent<any>;
   type: string;
   content: Record<string, any>;

@@ -55,7 +55,7 @@ const Append: React.FC<AppendProps> = ({ onClick, config }) => {
         <div className={styles.chooser}>
           {possibleChildren.map(s => (
             <button onClick={() => handleClick(s.type)} key={s.type}>
-              {s.title.substring(0, 1)}
+              {s.icon || s.title.substring(0, 1)}
             </button>
           ))}
         </div>
