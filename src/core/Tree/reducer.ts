@@ -11,22 +11,21 @@ export const reducer = (state: NodeTreeItem, action: TreeReducerAction) => {
     case 'empty':
       return createEmpty('');
     case 'add': {
-      // scope
       const nstate = { ...state };
       const parent = get(nstate, action.path, []);
-
       set(nstate, action.path, [...parent, action.payload]);
 
       return nstate;
     }
+
     case 'patch': {
-      // scope
       const nstate = { ...state };
       set(nstate, action.path, action.payload);
+
       return nstate;
     }
+
     case 'delete': {
-      // scope
       const nstate = { ...state };
       unset(nstate, action.path);
 
