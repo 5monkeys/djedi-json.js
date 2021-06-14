@@ -36,7 +36,9 @@ const Editable: React.FC<{
   const { Component, content = {} } = config;
   const { isomorphic } = content;
 
-  const hasChild = Object.values(content).some((c: ComponentConfig) => c.type === 'input/children'); // todo: Use a nice way to find all active child-like input types
+  const childrenConfig = Object.values(content).find(
+    (c: ComponentConfig) => c.type === 'input/children'
+  ); // todo: Use a nice way to find all active child-like input types
 
   const append = React.useCallback(
     (type: string) => {
@@ -83,12 +85,12 @@ const Editable: React.FC<{
           >
             <Component
               {...(tree?.content || {})}
-              {...(hasChild
+              {...(childrenConfig
                 ? {
                     children: (
                       <>
                         {children}
-                        <Append onClick={append} config={config} />
+                        {childrenConfig.injectButton && <Append onClick={append} config={config} />}
                       </>
                     ),
                   }

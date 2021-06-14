@@ -1,8 +1,9 @@
 import CMSType from './CMSType';
-import CMSContext from './contexts/cms';
-import EditContext from './contexts/editcontext';
+import { useCMS } from './contexts/cms';
+import { useEdit } from './contexts/editcontext';
 import CMS from './core/CMS';
 import { createConfig, validateConfig } from './core/config';
+import { createEmpty } from './core/Node';
 import Renderer from './Renderer';
 
-export { CMS, CMSType, Renderer, createConfig, validateConfig, CMSContext, EditContext };
+export { CMS, CMSType, Renderer, createConfig, validateConfig, createEmpty, useCMS, useEdit };
