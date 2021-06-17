@@ -1,5 +1,3 @@
-/// <reference path="./types/index.d.ts" />
-
 import CMSType from './CMSType';
 import { useCMS } from './contexts/cms';
 import { useEdit } from './contexts/editcontext';
@@ -8,4 +6,5 @@ import { createConfig, validateConfig } from './core/config';
 import { createEmpty } from './core/Node';
 import Renderer from './Renderer';
 
+import './types';
 export { CMS, CMSType, Renderer, createConfig, validateConfig, createEmpty, useCMS, useEdit };
