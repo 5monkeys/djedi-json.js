@@ -6,7 +6,7 @@ export interface RendererProps {
 }
 
 const Renderer: React.FC<RendererProps> = ({ config, tree }) => {
-  if (tree === undefined || !Array.isArray(tree)) {
+  if (tree === undefined) {
     return null;
   }
   const { components } = config;
