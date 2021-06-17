@@ -1,3 +1,5 @@
+/// <reference path="./types/index.d.ts" />
+
 import CMSType from './CMSType';
 import { useCMS } from './contexts/cms';
 import { useEdit } from './contexts/editcontext';

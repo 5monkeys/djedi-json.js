@@ -2,7 +2,7 @@ import { CMS, createConfig } from 'djedi-json';
 
 import config from './config';
 
-const DUMMY_TREE = {
+const DUMMY_TREE: NodeTreeItem = {
   type: 'component/page',
   content: {
     title: 'Example page',
