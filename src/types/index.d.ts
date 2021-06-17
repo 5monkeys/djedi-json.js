@@ -2,9 +2,9 @@
 declare interface ComponentConfig {
   title: string;
   description?: string;
-  editable: boolean;
-  removable: boolean;
-  icon?: React.ReactElement;
+  editable?: boolean;
+  removable?: boolean;
+  icon?: React.ReactChild;
   Component: React.FunctionComponent<any>;
   type: string;
   content: Record<string, any>;

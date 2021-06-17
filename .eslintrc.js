@@ -80,6 +80,7 @@ module.exports = {
     'no-empty': 'warn',
     'no-prototype-builtins': 'warn',
     '@typescript-eslint/ban-ts-comment': 'off',
+    '@typescript-eslint/triple-slash-reference': 'off',
   },
   settings: {
     react: {

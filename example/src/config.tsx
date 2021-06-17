@@ -7,7 +7,7 @@ import Hero from './components/Hero';
 import Page from './components/Page';
 import Unsplash, { TYPE_IDENTIFIER as UNSPLASHED_TYPE, UnsplashedImage } from './edits/Unsplashed';
 
-const components = [
+const components: ComponentConfig[] = [
   {
     title: 'Page',
     Component: Page,
@@ -33,6 +33,7 @@ const components = [
     description: 'A figure element with a caption',
     Component: CaptionedImage,
     type: 'component/caption-image',
+    icon: <div>RC</div>,
     editOnClick: true,
     content: {
       text: CMSType.string({ label: 'description' }),
