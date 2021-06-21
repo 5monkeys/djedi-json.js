@@ -4,7 +4,7 @@ export type EditContextType = {
   ref: RefObject<HTMLSpanElement> | null;
   path: string[];
   tree: NodeTreeItem;
-  append: (t: string) => void;
+  append: (t: string, o?: Record<string, any>) => void;
   remove: () => void;
   patch: (p: NodeContentType) => void;
   setEdit: (v: boolean) => void;
