@@ -52,9 +52,9 @@ const Editable: React.FC<{
   );
 
   const patch = React.useCallback(
-    (content: NodeContentType) => {
+    (_content: NodeContentType) => {
       setTree({
-        payload: { ...tree, content },
+        payload: { ...tree, content: _content },
         path,
         type: 'patch',
       });
