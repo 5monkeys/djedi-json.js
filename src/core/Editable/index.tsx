@@ -41,8 +41,12 @@ const Editable: React.FC<{
   const [over, setOver] = React.useState(false);
 
   const append = React.useCallback(
-    (type: string) => {
-      setTree({ payload: createEmpty(type), type: 'add', path: [...path, 'content', 'children'] });
+    (type: string, o?: Record<string, any>) => {
+      setTree({
+        payload: createEmpty(type, o),
+        type: 'add',
+        path: [...path, 'content', 'children'],
+      });
     },
     [path, setTree]
   );

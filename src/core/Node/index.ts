@@ -1,3 +1,3 @@
-export const createEmpty = (type: string): NodeTreeItem => {
-  return { content: {}, type };
+export const createEmpty = (type: string, o?: Record<string, any>): NodeTreeItem => {
+  return { content: o || {}, type };
 };
