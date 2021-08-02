@@ -56,6 +56,7 @@ const components: ComponentConfig[] = [
     type: 'component/grid',
     content: {
       children: CMSType.children({ self: false, allowed: ['component/caption-image'] }),
+      name: CMSType.string({ label: 'name' }),
     },
   },
 ];
