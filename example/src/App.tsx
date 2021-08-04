@@ -14,12 +14,6 @@ const DUMMY_TREE: NodeTreeItem = {
         content: { children: 'This heading is directly editable' },
       },
       {
-        type: 'component/container',
-        content: {
-          children: [{ type: 'component/heading', content: { children: 'hallå där' } }],
-        },
-      },
-      {
         type: 'component/caption-image',
         content: {
           text: 'Interesting facts about cats',
