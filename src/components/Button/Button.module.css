@@ -1,6 +1,7 @@
 .root {
   box-sizing: border-box;
-  padding: 1rem 2rem;
+  padding: 0.5rem 2rem;
+  margin-top: auto;
   color: white;
   cursor: pointer;
   background: black;

@@ -54,9 +54,11 @@ const components: ComponentConfig[] = [
     title: 'Grid',
     Component: Grid,
     type: 'component/grid',
-    content: {
+    editable: false,
+    content: CMSType.custom({
+      isomorphic: true,
       children: CMSType.children({ self: false, allowed: ['component/caption-image'] }),
-    },
+    }),
   },
 ];
 

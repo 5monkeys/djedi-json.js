@@ -4,6 +4,7 @@ import Button from '../../components/Button';
 import Modal from '../../components/Modal';
 import { useCMS } from '../../contexts/cms';
 import { useEdit } from '../../contexts/editcontext';
+import CloseSVG from '../../icons/close.svg';
 import styles from './EditGroup.module.css';
 
 export type EditGroupProps = {
@@ -43,7 +44,9 @@ const EditGroup: React.FC<EditGroupProps> = ({ content }) => {
             </section>
           );
         })}
-        <Button onClick={() => setEdit(false)}>Close</Button>
+        <Button onClick={() => setEdit(false)} className={styles.close}>
+          <CloseSVG width="24px" fill="currentColor" />
+        </Button>
       </div>
     </Modal>
   ) : null;

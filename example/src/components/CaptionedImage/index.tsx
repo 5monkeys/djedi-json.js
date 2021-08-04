@@ -11,19 +11,21 @@ export type CaptionedImageProps = {
 
 const CaptionedImage: React.FC<CaptionedImageProps> = ({
   background = 'white',
-  image = 'http://placekitten.com/300/200',
+  image = 'https://source.unsplash.com/random/500x300',
   text = 'caption',
 }) => {
   return (
-    <figure
-      className={cx(styles.root, {
-        [styles.black]: background === 'black',
-        [styles.grey]: background === 'grey',
-        [styles.white]: background === 'white',
-      })}
-    >
-      <span className={styles.loading}>{image && <img src={image}></img>}</span>
-      <figcaption>{text}</figcaption>
+    <figure className={styles.root}>
+      <img className={styles.image} src={image}></img>
+      <figcaption
+        className={cx(styles.caption, {
+          [styles.black]: background === 'black',
+          [styles.grey]: background === 'grey',
+          [styles.white]: background === 'white',
+        })}
+      >
+        {text}
+      </figcaption>
     </figure>
   );
 };

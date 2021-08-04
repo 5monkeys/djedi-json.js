@@ -68,10 +68,24 @@ const Editable: React.FC<{
     setOver(bool);
   };
 
+  const componentProps = {
+    ...(tree?.content || {}),
+    ...(childrenConfig
+      ? {
+          children: (
+            <>
+              {children}
+              {childrenConfig.append && <Append onClick={append} config={config} />}
+            </>
+          ),
+        }
+      : {}),
+  };
+
   return (
     <EditContext.Provider value={{ editing, tree, setEdit, patch, remove, path, ref, append }}>
       {isomorphic ? (
-        <Component onChange={patch} {...tree.content} />
+        <Component onChange={patch} {...componentProps} />
       ) : (
         <>
           <span
@@ -87,29 +101,27 @@ const Editable: React.FC<{
               toggleOpen(false);
             }}
           >
-            <Component
-              {...(tree?.content || {})}
-              {...(childrenConfig
-                ? {
-                    children: (
-                      <>
-                        {children}
-                        {childrenConfig.append && <Append onClick={append} config={config} />}
-                      </>
-                    ),
-                  }
-                : {})}
-            />
+            <Component {...componentProps} />
 
             {Boolean(over && (config.removable || config.editable)) && (
               <span className={styles.toolbar}>
                 {config.editable && (
-                  <button onClick={() => setEdit(v => !v)}>
+                  <button
+                    onClick={e => {
+                      e.stopPropagation();
+                      setEdit(v => !v);
+                    }}
+                  >
                     <EditSVG fill="currentColor" />
                   </button>
                 )}
                 {config.removable && (
-                  <button onClick={remove}>
+                  <button
+                    onClick={e => {
+                      e.stopPropagation();
+                      remove();
+                    }}
+                  >
                     <DeleteSVG fill="currentColor" />
                   </button>
                 )}
