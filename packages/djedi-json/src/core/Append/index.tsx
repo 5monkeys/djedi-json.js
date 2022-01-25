@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useCMS } from '../../contexts/cms';
+import AddIcon from '../../icons/add.svg';
 import styles from './Append.module.css';
 
 type AppendProps = {
@@ -49,7 +50,7 @@ const Append: React.FC<AppendProps> = ({ onClick, config }) => {
         }
         ref={ref}
       >
-        +
+        <AddIcon />
       </button>
       {open && (
         <div className={styles.chooser}>
