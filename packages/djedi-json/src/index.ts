@@ -1,5 +1,6 @@
 import CMSType from './CMSType';
 import { useCMS } from './contexts/cms';
+import CMSContext from './contexts/cms';
 import { useEdit } from './contexts/editcontext';
 import CMS from './core/CMS';
 import { createConfig, validateConfig } from './core/config';
@@ -18,4 +19,5 @@ export {
   createEmpty,
   useCMS,
   useEdit,
+  CMSContext,
 };
