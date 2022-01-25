@@ -1,0 +1,57 @@
+{
+  "name": "djedi-json",
+  "version": "0.4.1",
+  "main": "build/index.js",
+  "module": "build/index.esm.js",
+  "types": "build/index.d.ts",
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "start": "rollup -c -w",
+    "build": "rollup -c",
+    "test": "jest",
+    "prepublishOnly": "npm run build",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint '*/**/*.{ts,tsx}' --cache",
+    "lint:fix": "eslint '*/**/*.{ts,tsx}' --cache --fix",
+    "lint:css": "stylelint '*/**/*.{css,scss}' --cache --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/5monkeys/djedi-json.js.git",
+    "directory": "packages/djedi-json"
+  },
+  "dependencies": {
+    "classnames": "^2.3.1",
+    "lodash-es": "^4.17.21"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "devDependencies": {
+    "postcss": "^8.3.3",
+    "tslib": "^2.3.0",
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0",
+    "@rollup/plugin-commonjs": "^19.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
+    "@svgr/rollup": "^5.5.0",
+    "postcss-extend": "^1.0.5",
+    "postcss-import": "^14.0.2",
+    "postcss-nested": "^5.0.5",
+    "rollup": "^2.36.1",
+    "rollup-plugin-copy": "^3.3.0",
+    "rollup-plugin-peer-deps-external": "^2.2.0",
+    "rollup-plugin-postcss": "^4.0.0",
+    "rollup-plugin-typescript2": "^0.30.0"
+  },
+  "description": "A modular DIY-admin able to utilize existing components from your react frontend.",
+  "bugs": {
+    "url": "https://github.com/5monkeys/djedi-json.js/issues"
+  },
+  "homepage": "https://github.com/5monkeys/djedi-json.js#readme",
+  "author": "",
+  "license": "ISC"
+}
