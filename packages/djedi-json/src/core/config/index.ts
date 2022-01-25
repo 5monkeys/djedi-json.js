@@ -4,7 +4,7 @@ export const validateConfig = (config: Config) => {
   // check if the edit type exists.
   config.components.every((cc: ComponentConfig) => {
     return Object.entries(cc.content).every(([k, { type }]) => {
-      if (config.edit[type]) {
+      if (config?.edit[type]) {
         //eslint-disable-next-line no-console
         console.log(`%c✅ ${cc.type}:${k} validated as ${type}`, 'color: darkgreen');
         return true;

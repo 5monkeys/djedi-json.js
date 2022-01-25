@@ -4,7 +4,18 @@ import { useEdit } from './contexts/editcontext';
 import CMS from './core/CMS';
 import { createConfig, validateConfig } from './core/config';
 import { createEmpty } from './core/Node';
+import Preview from './core/Renderer/Preview';
 import Renderer from './Renderer';
 
 import './types';
-export { CMS, CMSType, Renderer, createConfig, validateConfig, createEmpty, useCMS, useEdit };
+export {
+  CMS,
+  CMSType,
+  Renderer,
+  Preview,
+  createConfig,
+  validateConfig,
+  createEmpty,
+  useCMS,
+  useEdit,
+};
