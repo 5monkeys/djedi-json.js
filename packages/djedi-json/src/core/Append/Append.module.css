@@ -1,7 +1,4 @@
 .button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 40px;
   height: 40px;
   font-size: 24px;
@@ -12,6 +9,10 @@
   background-color: rgba(0, 0, 0, 0.9);
   border: none;
   border-radius: 100%;
+
+  svg {
+    width: 70%;
+  }
 }
 
 .wrapper {
