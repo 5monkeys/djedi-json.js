@@ -30,7 +30,11 @@ const EditorTree: React.FC<{ tree: NodeTreeItem; path?: string[] }> = ({ tree, p
     <Editable config={Config} tree={tree} path={path}>
       {Array.isArray(children) &&
         children?.map((child, i) => (
-          <EditorTree tree={child} key={i} path={[...path, 'content', 'children', i.toString()]} />
+          <EditorTree
+            tree={child}
+            key={`${child.type}:${path}`}
+            path={[...path, 'content', 'children', i.toString()]}
+          />
         ))}
     </Editable>
   );

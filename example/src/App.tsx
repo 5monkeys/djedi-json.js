@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { CMS, createConfig, Preview } from 'djedi-json';
 
 import config from './config';
 
+const c = createConfig(config);
 const DUMMY_TREE: NodeTreeItem = {
   type: 'component/page',
   content: {
@@ -28,12 +30,11 @@ const DUMMY_TREE: NodeTreeItem = {
   },
 };
 
-const c = createConfig(config);
-
 function App() {
+  const [state] = useState(DUMMY_TREE);
   return (
     <div className="App">
-      <CMS config={c} tree={DUMMY_TREE}>
+      <CMS config={c} tree={state}>
         <Preview />
       </CMS>
     </div>
