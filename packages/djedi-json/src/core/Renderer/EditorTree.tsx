@@ -32,7 +32,7 @@ const EditorTree: React.FC<{ tree: NodeTreeItem; path?: string[] }> = ({ tree, p
         children?.map((child, i) => (
           <EditorTree
             tree={child}
-            key={`${child.type}:${path}`}
+            key={`${child.type}:${path.join('-')},${i}`}
             path={[...path, 'content', 'children', i.toString()]}
           />
         ))}
