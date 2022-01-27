@@ -37,7 +37,7 @@ const Editable: React.FC<{
   const { setTree } = useCMS();
 
   // STATES
-  const [editing, setEdit] = React.useState(isomorphic);
+  const [editing, setEdit] = React.useState(false);
   const [over, setOver] = React.useState(false);
 
   const append = React.useCallback(
