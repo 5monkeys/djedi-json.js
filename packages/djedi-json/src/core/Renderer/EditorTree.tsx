@@ -1,4 +1,5 @@
 import React from 'react';
+import key from 'weak-key';
 
 import { useCMS } from '../../contexts/cms';
 import Editable from '../Editable';
@@ -32,7 +33,7 @@ const EditorTree: React.FC<{ tree: NodeTreeItem; path?: string[] }> = ({ tree, p
         children?.map((child, i) => (
           <EditorTree
             tree={child}
-            key={`${child.type}:${path.join('-')},${i}`}
+            key={key(child)}
             path={[...path, 'content', 'children', i.toString()]}
           />
         ))}
