@@ -24,8 +24,7 @@
   },
   "dependencies": {
     "classnames": "^2.3.1",
-    "lodash-es": "^4.17.21",
-    "weak-key": "^1.0.2"
+    "lodash-es": "^4.17.21"
   },
   "peerDependencies": {
     "react": ">=16.8.0",

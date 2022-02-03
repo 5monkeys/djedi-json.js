@@ -1,5 +1,4 @@
 import React from 'react';
-import key from 'weak-key';
 
 import { useCMS } from '../../contexts/cms';
 import Editable from '../Editable';
@@ -22,21 +21,16 @@ const EditorTree: React.FC<{ tree: NodeTreeItem; path?: string[] }> = ({ tree, p
   if (!Config) {
     return null;
   }
-  // const [childKey] = Object.entries(Config.content).find(([, t]) => t.type == 'input/children');
 
   const { children } = tree.content;
-  // const localPath = [...path, index.toString(), 'content', 'children'];
 
   return (
     <Editable config={Config} tree={tree} path={path}>
       {Array.isArray(children) &&
-        children?.map((child, i) => (
-          <EditorTree
-            tree={child}
-            key={key(child)}
-            path={[...path, 'content', 'children', i.toString()]}
-          />
-        ))}
+        children?.map((child, i) => {
+          const k = [...path, 'content', 'children', i.toString()];
+          return <EditorTree tree={child} key={k.join('.')} path={k} />;
+        })}
     </Editable>
   );
 
