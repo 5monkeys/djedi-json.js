@@ -7,3 +7,7 @@ export const cleanTree = (t: NodeTreeItem): NodeTreeItem => {
       }
     : t;
 };
+
+export function lossyDeepClone<T>(o: T) {
+  return JSON.parse(JSON.stringify(o));
+}
