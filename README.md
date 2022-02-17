@@ -4,6 +4,7 @@ A easy way to create micro-admins using react components, saving the output
 as a JSON to be consumed in frontend.
 
 [Documentation](#Documentation)
+
 [Develop this package!](#Development)
 
 ### installing
@@ -20,7 +21,7 @@ npm install -S djedi-json react react-dom
 
 The CMS has two main components,  a Preview, displaying the results/editable parts of your CMS. This has to be wrapped in `CMS` to work. `CMS` is basically a ContextProvider, allowing you to append your own children that consume `CMSContext`.
 
-CMS needs just a `config` to work, but if you want to continue on a previously saved document you can pass this ass `tree`.
+CMS needs just a `config` to work, but if you want to continue on a previously saved document this is passed as `tree`.
 ```
 import { CMS, createConfig, Preview } from 'djedi-json';
 
@@ -120,7 +121,12 @@ There are four CMSTypes included from the start:
 
 #### CMSType/Children
 
-append, self, allowed
+Children dictates how and if items can be appended to the item. The settings available are:
+```
+append: boolean // Can this item have children appended, ie should the plus-button be rendered ?
+self: boolean // The item can accept it's own type as a child
+allowed: string[] // List of types that can be appended, these are available through the append-button rendered if append=truee
+````
 
 #### CMSType/String
 
