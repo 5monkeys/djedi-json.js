@@ -3,6 +3,7 @@ import React from 'react';
 import CMSContext from '../../contexts/cms';
 import { createEmpty } from '../Node';
 import { reducer } from '../Tree';
+import { lossyDeepClone } from '../Tree/utils';
 
 export interface CMSProps {
   config: Config;
@@ -23,7 +24,11 @@ const CMS: React.FC<CMSProps> = ({
   const [config, setConfig] = React.useState<Config>(passedConfig);
 
   // keep tree in sync
-  React.useEffect(() => setTree({ type: 'replace', payload: passedTree }), [passedTree]);
+  React.useEffect(
+    // deep cloning the tree here ensures there's no issues with mutating the passed in object further down the tree.
+    () => setTree({ type: 'replace', payload: lossyDeepClone(passedTree) }),
+    [passedTree]
+  );
 
   // keep config in sync
   React.useEffect(() => setConfig(passedConfig), [passedConfig]);
