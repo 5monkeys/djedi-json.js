@@ -19,9 +19,10 @@ npm install -S djedi-json react react-dom
 # Documentation
 ## Using the CMS in an admin.
 
-The CMS has two main components,  a Preview, displaying the results/editable parts of your CMS. This has to be wrapped in `CMS` to work. `CMS` is basically a ContextProvider, allowing you to append your own children that consume `CMSContext`.
+The CMS has two main components,  a <Preview/>, displaying the results/editable parts of your CMS, and a `<CMS/>` component providing context.
+The Preview has to be wrapped in `<CMS/>` to work. `<CMS/>` is basically a ContextProvider, allowing you to append your own children that consume `CMSContext`.
 
-CMS needs just a `config` to work, but if you want to continue on a previously saved document this is passed as `tree`.
+CMS only needs a `config` to work, but if you want to continue on a previously saved document this is passed as `tree`.
 ```
 import { CMS, createConfig, Preview } from 'djedi-json';
 
@@ -130,13 +131,22 @@ allowed: string[] // List of types that can be appended, these are available thr
 
 #### CMSType/String
 
-plain string
+Used for plain string props
 
 #### CMSType/Select
+Used to allow the user to make a choice from a range of values.
 
 #### CMSType/Custom
 
 options, can be either a list of strings or an object with `label`and `value` keys.
+Custom is the most versatile of the types and can be used to create a custom editable.
+
+To render a component that uses itself as a editor, use the `isomorphic` prop.
+```
+  content: CMSType.custom({
+      isomorphic: true,
+    }),
+```
 
 #### Registering custom edits
 
