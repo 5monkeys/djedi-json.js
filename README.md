@@ -3,6 +3,8 @@
 A easy way to create micro-admins using react components, saving the output
 as a JSON to be consumed in frontend.
 
+This is a work in progress and needs some cleaning up and refactoring going forward.
+
 [Documentation](#Documentation)
 
 [Develop this package!](#Development)
@@ -138,7 +140,7 @@ Used to allow the user to make a choice from a range of values.
 
 #### CMSType/Custom
 
-options, can be either a list of strings or an object with `label`and `value` keys.
+options, can be either a list of strings or an object with `label` and `value` keys.
 Custom is the most versatile of the types and can be used to create a custom editable.
 
 To render a component that uses itself as a editor, use the `isomorphic` prop.
@@ -158,15 +160,26 @@ All custom edits needs to accept at least `value` and `onChange` as props, handl
     },
   },
 
-## Components
 
-## Contexts
+## Exported utils
+`createConfig`
+Accepts `components` and `edits` and returns a config
+
+`createEmpty`
+Returns an empty shell of a tree-node, accepts a type as string.
+## Exported Components
+`CMS` - Wraps the entire CMS, supplying a CMS context provider. accepts a `config` and a `tree`
+
+`Preview`
+Takes no props. Renders the admin itself.
+
+## Exported Contexts
 
 `EditContext`
 Used to access edit functions on the current component. Each component is rendered within a separate EditContext.
 
 `CMSContext`
-Used to access the currnt root tree of the CMS.
+Used to access the current root tree of the CMS.
 
 
 ## Development
