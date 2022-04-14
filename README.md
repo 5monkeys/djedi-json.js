@@ -1,8 +1,12 @@
 # Djedi - JSON
 
-A modular DIY-admin able to utilize existing components from your react frontend.
+A easy way to create micro-admins using react components, saving the output
+as a JSON to be consumed in frontend.
+
+This is a work in progress and needs some cleaning up and refactoring going forward.
 
 [Documentation](#Documentation)
+
 [Develop this package!](#Development)
 
 ### installing
@@ -13,56 +17,170 @@ npm install -S djedi-json react react-dom
 
 # Djedi pages frontend
 
-# Basic setup
 
 # Documentation
+## Using the CMS in an admin.
 
-## Admin
+The CMS has two main components,  a <Preview/>, displaying the results/editable parts of your CMS, and a `<CMS/>` component providing context.
+The Preview has to be wrapped in `<CMS/>` to work. `<CMS/>` is basically a ContextProvider, allowing you to append your own children that consume `CMSContext`.
 
-## config
+CMS only needs a `config` to work, but if you want to continue on a previously saved document this is passed as `tree`.
+```
+import { CMS, createConfig, Preview } from 'djedi-json';
 
-## Components
+const App = () => (
+  <CMS config={} tree={}>
+    <Preview />
+  </CMS>)
+```
+## Consuming data created by the admin in a frontend:
 
-## Contexts
+```
+import { Renderer } from 'djedi-json';
 
-useCMS
-useEdit
+// Map the types to the Components you want to display.
+const config = {
+  components: [
+    { Component: Page, type: "component/page" },
+    { Component: RichText, type: "component/rich-text" },
+    { Component: Image, type: "component/image" },
+    { Component: Article, type: "component/article" },
+  ],
+};
 
-### registering components
+const tree = {
+  type: 'component/page',
+  content: {
+    title: 'Example page',
+    meta: 'Meta title',
+    sub: 'This is a pluggable component admin',
+    children: [
+      {
+        type: 'component/rich-text',
+        content: { children: 'I am a a header' },
+      },
+      {
+        type: 'component/image',
+        content: {
+          text: 'Interesting facts about cats',
+          background: 'black',
+        },
+      },
+      {
+        type: 'component/container',
+        content: {},
+      },
+    ],
+  },
+}
 
-## Edits
+// The Renderer recursively walks the tree, rendering the components from config with the props from `content` in each TreeNode
+const Page = () => {
+  return <Renderer tree={tree} config={config} />;
+};
+```
 
-- Context useEdit
+## The config
+Create a config using the `createConfig` util.
+```
+import { createConfig } from 'djedi-json'
 
-## Pre-made edits
+const config = createConfig({
+  components: [
+    {
+    title: 'Page', // Displayname
+    description: 'Page component', // Description
+    icon: <SvgIcon/>, // A ReactComponent to be used as icon
+    Component: Page, // The component itself
+    type: 'component/page', // This is used to find the component used for rendering on the site.
+    removable: false, // toggle the default remove-button for this element,
+    edit: true, // toggle the default edit-button for this element,
+    editOnClick: true, // Opens the edit menu if the element is clicked on anywhere, not just the edit-button,
+    // The content maps to the component props of the Page component using CMSType:s.
+    content: { 
+      children: CMSType.children({ label: 'contents', self: false }),
+      title: CMSType.string({ label: 'Meta Title of the page' }),
+      meta: CMSType.string({ label: 'Meta description' }),
+      sub: CMSType.string({ label: 'Subtitle' }),
+    },
+  }
+  ],
+  // Edits are used to register custom components for editing our own types 
+  edit: {
+    "image": { // Type-key
+      Component: Unsplash, // ReactComponent
+    },
+  },
+});
+```
 
-### Common parameters
+### CMSTypes
+There are four CMSTypes included from the start:
 
-### CMSType/Children
+- CMSType.children
+- CMSType.string
+- CMSType.select
+- CMSType.custom
 
-append, self, allowed
+#### CMSType/Children
 
-### CMSType/String
+Children dictates how and if items can be appended to the item. The settings available are:
+```
+append: boolean // Can this item have children appended, ie should the plus-button be rendered ?
+self: boolean // The item can accept it's own type as a child
+allowed: string[] // List of types that can be appended, these are available through the append-button rendered if append=truee
+````
 
-plain string
+#### CMSType/String
 
-### CMSType/Select
+Used for plain string props
 
-### CMSType/Custom
+#### CMSType/Select
+Used to allow the user to make a choice from a range of values.
 
-options, can be either a list of strings or an object with `label`and `value` keys.
+#### CMSType/Custom
 
-## registering custom edits
+options, can be either a list of strings or an object with `label` and `value` keys.
+Custom is the most versatile of the types and can be used to create a custom editable.
 
-All custom edits needs to accept at least `value` and `onChange` as props.
-type
-use CMSType.custom.
+To render a component that uses itself as a editor, use the `isomorphic` prop.
+```
+  content: CMSType.custom({
+      isomorphic: true,
+    }),
+```
 
-### overriding edits
+#### Registering custom edits
 
-## Usage
+All custom edits needs to accept at least `value` and `onChange` as props, handling the two-way-binding,
 
-## Typescript
+  edit: {
+    "image": { // Type-key
+      Component: Unsplash, // ReactComponent
+    },
+  },
+
+
+## Exported utils
+`createConfig`
+Accepts `components` and `edits` and returns a config
+
+`createEmpty`
+Returns an empty shell of a tree-node, accepts a type as string.
+## Exported Components
+`CMS` - Wraps the entire CMS, supplying a CMS context provider. accepts a `config` and a `tree`
+
+`Preview`
+Takes no props. Renders the admin itself.
+
+## Exported Contexts
+
+`EditContext`
+Used to access edit functions on the current component. Each component is rendered within a separate EditContext.
+
+`CMSContext`
+Used to access the current root tree of the CMS.
+
 
 ## Development
 
@@ -71,9 +189,12 @@ Within this repo is an example Create-react-app that has a link into the folder 
 Get started:
 
 ```
-npm ci; // install dependencies for djedi-json
-npm start; // starts the rollup build-watcher
-cd example;
-npm ci;  // install dependencies for the example app
-npm start; // start the CRA app.
+npm ci:all; // install dependencies for example app and djedi-json
+
+Run npm start in both the example app and the packages/djedi-json
+```
+
+## Publishing to NPM
+```
+npm run publish:core
 ```
