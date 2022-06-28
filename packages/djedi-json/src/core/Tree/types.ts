@@ -24,7 +24,15 @@ export type DeleteAction = {
   path: string[] | string;
 };
 
+export type MoveAction = {
+  type: 'move';
+  path: string[] | string;
+  payload: NodeTreeItem;
+  direction: number;
+};
+
 export type TreeReducerAction =
+  | MoveAction
   | ReplaceAction
   | EmptyAction
   | PatchAction

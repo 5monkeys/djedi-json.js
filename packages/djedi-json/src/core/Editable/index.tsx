@@ -9,6 +9,7 @@ import Append from '../Append';
 import EditGroup from '../EditGroup';
 import { createEmpty } from '../Node';
 import styles from './Editable.module.css';
+import { TreeReducerAction } from '../Tree/types';
 
 /**
  * Editable, wraps the child component with some tooling for talking to the admin.
@@ -62,6 +63,18 @@ const Editable: React.FC<{
     [path, tree, setTree]
   );
 
+  const move = React.useCallback(
+    (_content: NodeContentType, direction: number) => {
+      setTree({
+        path,
+        payload: { ...tree, content: _content },
+        type: 'move',
+        direction,
+      });
+    },
+    [path, setTree, tree]
+  );
+
   const remove = React.useCallback(() => setTree({ type: 'delete', path }), [path, setTree]);
 
   const toggleOpen = (bool: boolean) => {
@@ -83,7 +96,9 @@ const Editable: React.FC<{
   };
 
   return (
-    <EditContext.Provider value={{ editing, tree, setEdit, patch, remove, path, ref, append }}>
+    <EditContext.Provider
+      value={{ editing, tree, setEdit, patch, remove, path, ref, append, move }}
+    >
       {isomorphic ? (
         <Component onChange={patch} {...componentProps} />
       ) : (

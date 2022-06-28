@@ -3,13 +3,15 @@ import cx from 'classnames';
 
 import styles from './Button.module.css';
 
-export interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   color?: 'gray' | 'black';
 }
 
-const Button: React.FC<ButtonProps> = ({ children, color = 'gray' } = {}) => {
+const Button: React.FC<ButtonProps> = ({ children, color = 'gray', ...props } = {}) => {
   return (
-    <button className={cx(styles.root, { [styles[`color-${color}`]]: color })}>{children}</button>
+    <button {...props} className={cx(styles.root, { [styles[`color-${color}`]]: color })}>
+      {children}
+    </button>
   );
 };
 

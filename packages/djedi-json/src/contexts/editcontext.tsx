@@ -5,6 +5,7 @@ export type EditContextType = {
   path: string[];
   tree: NodeTreeItem;
   append: (t: string, o?: Record<string, any>) => void;
+  move: (p: NodeContentType, d: number) => void;
   remove: () => void;
   patch: (p: NodeContentType) => void;
   setEdit: (v: boolean) => void;
@@ -25,6 +26,9 @@ const EditContext = React.createContext<EditContextType>({
     // not empty
   },
   patch: () => {
+    // not empty
+  },
+  move: () => {
     // not empty
   },
   path: [],

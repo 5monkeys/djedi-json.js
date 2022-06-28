@@ -23,8 +23,23 @@ const DUMMY_TREE: NodeTreeItem = {
         },
       },
       {
-        type: 'component/container',
-        content: {},
+        type: 'component/heading',
+        content: { children: 'This' },
+      },
+      {
+        type: 'component/heading',
+        content: { children: 'heading is' },
+      },
+      {
+        type: 'component/heading',
+        content: { children: 'directly editable' },
+      },
+      {
+        type: 'component/paragraph',
+        content: {
+          children:
+            'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Odio facilis vel consectetur dolore fugit enim nam ratione culpa numquam corporis eum debitis, incidunt sint saepe modi? Maxime explicabo cupiditate nobis.',
+        },
       },
     ],
   },

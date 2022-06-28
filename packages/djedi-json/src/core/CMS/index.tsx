@@ -30,6 +30,13 @@ const CMS: React.FC<CMSProps> = ({
     [passedTree]
   );
 
+  React.useEffect(() => {
+    console.log('Tree updated:', tree);
+  }, [tree]);
+  React.useEffect(() => {
+    console.log('PassedTree updated:', passedTree);
+  }, [passedTree]);
+
   // keep config in sync
   React.useEffect(() => setConfig(passedConfig), [passedConfig]);
 
