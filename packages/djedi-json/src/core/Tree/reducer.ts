@@ -52,19 +52,22 @@ export const reducer = (state: NodeTreeItem, action: TreeReducerAction) => {
         const from = parseInt(leaf);
         const to = Math.max(Math.min(from + action.steps, siblings.length - 1), 0);
 
-        // perform the actual move
         const element = siblings[from];
-        siblings.splice(from, 1);
-        siblings.splice(to, 0, element);
 
-        // add mutated array to new state
-        set(nstate, path, siblings);
+        // implicitly handle isNaN(from) since siblings[NaN] is undefined
+        if (typeof element !== "undefined") {
+          // perform the actual move
+          siblings.splice(from, 1);
+          siblings.splice(to, 0, element);
   
-        return nstate;
+          // add mutated array to new state
+          set(nstate, path, siblings);
+        }
       } else {
         // todo
-        return nstate;
       }
+
+      return nstate;
     }
 
     default:
