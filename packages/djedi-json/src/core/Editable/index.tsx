@@ -9,7 +9,6 @@ import Append from '../Append';
 import EditGroup from '../EditGroup';
 import { createEmpty } from '../Node';
 import styles from './Editable.module.css';
-import { TreeReducerAction } from '../Tree/types';
 
 /**
  * Editable, wraps the child component with some tooling for talking to the admin.
@@ -22,7 +21,8 @@ const Editable: React.FC<{
   config: ComponentConfig;
   tree: NodeTreeItem;
   path: string[];
-}> = ({ tree, config, children, path = [] }) => {
+  draggable: boolean;
+}> = ({ tree, config, children, path = [], draggable }) => {
   // A ref to the parent. Could potentially be used to pin something or measure it to allow content-jumping.
   const ref = React.useRef<HTMLSpanElement>(null);
 
@@ -63,17 +63,13 @@ const Editable: React.FC<{
     [path, tree, setTree]
   );
 
-  const move = React.useCallback(
-    (_content: NodeContentType, direction: number) => {
-      setTree({
-        path,
-        payload: { ...tree, content: _content },
-        type: 'move',
-        direction,
-      });
-    },
-    [path, setTree, tree]
-  );
+  const moveSelf = React.useCallback((steps: number) => {
+    setTree({
+      path,
+      steps,
+      type: "move",
+    });
+  }, []);
 
   const remove = React.useCallback(() => setTree({ type: 'delete', path }), [path, setTree]);
 
@@ -85,19 +81,19 @@ const Editable: React.FC<{
     ...(tree?.content || {}),
     ...(childrenConfig
       ? {
-          children: (
-            <>
-              {children}
-              {childrenConfig.append && <Append onClick={append} config={config} />}
-            </>
-          ),
-        }
+        children: (
+          <>
+            {children}
+            {childrenConfig.append && <Append onClick={append} config={config} />}
+          </>
+        ),
+      }
       : {}),
   };
 
   return (
     <EditContext.Provider
-      value={{ editing, tree, setEdit, patch, remove, path, ref, append, move }}
+      value={{ editing, tree, setEdit, patch, remove, path, ref, append }}
     >
       {isomorphic ? (
         <Component onChange={patch} {...componentProps} />
@@ -118,7 +114,7 @@ const Editable: React.FC<{
           >
             <Component {...componentProps} />
 
-            {Boolean(over && (config.removable || config.editable)) && (
+            {Boolean(over && (config.removable || config.editable || draggable)) && (
               <span className={styles.toolbar}>
                 {config.editable && (
                   <button
@@ -139,6 +135,22 @@ const Editable: React.FC<{
                   >
                     <DeleteSVG fill="currentColor" />
                   </button>
+                )}
+                {draggable && (
+                  <>
+                    <button onClick={e => {
+                      e.stopPropagation();
+                      moveSelf(-1);
+                    }}>
+                      &lt;
+                    </button>
+                    <button onClick={e => {
+                      e.stopPropagation();
+                      moveSelf(1);
+                    }}>
+                      &gt;
+                    </button>
+                  </>
                 )}
               </span>
             )}

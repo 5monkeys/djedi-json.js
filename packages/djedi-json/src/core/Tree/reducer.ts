@@ -42,41 +42,29 @@ export const reducer = (state: NodeTreeItem, action: TreeReducerAction) => {
       return cleanTree(nstate);
     }
 
-    case 'move': {
+    case "move": {
       const nstate = { ...state };
 
       if (Array.isArray(action.path)) {
-        const path = action.path.slice();
+        const path = [...action.path];
+        const leaf = path.splice(-1, 1)[0]; // path is now the path of the parent
+        const siblings = [...get(nstate, path)]; // siblings, including the item that will be moved
+        const from = parseInt(leaf);
+        const to = Math.max(Math.min(from + action.steps, siblings.length - 1), 0);
 
-        const starting_index = parseInt(path.pop());
-        if (!Number.isNaN(starting_index)) {
-          debugger;
-          console.debug('%d is valid number', starting_index);
-          // // Calculate the desired index
-          // const desired_index = Math.min(
-          //   Math.max(starting_index + action.direction, 0),
-          //   get(nstate, path, []).length
-          // );
-          // const raw_children: [] = get(nstate, path, []);
-          // // Remove the element we want to move
-          // const children = raw_children
-          //   .slice(0, starting_index)
-          //   .concat(raw_children.slice(starting_index + 1));
-          // // Get every child before and after the desired index to make the insert
-          // const before = children.slice(0, desired_index);
-          // const after = children.slice(desired_index);
-          // const to_move = get(nstate, action.path, []);
-          // // console.trace();
-          // // Create the new children
-          // const new_children = [...before, to_move, ...after];
-          // // Set the new children
-          // set(nstate, path, [...new_children]);
-        }
+        // perform the actual move
+        const element = siblings[from];
+        siblings.splice(from, 1);
+        siblings.splice(to, 0, element);
+
+        // add mutated array to new state
+        set(nstate, path, siblings);
+  
+        return nstate;
+      } else {
+        // todo
+        return nstate;
       }
-
-      console.info('Running move.');
-
-      return nstate;
     }
 
     default:

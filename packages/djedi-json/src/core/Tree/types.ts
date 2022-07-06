@@ -27,8 +27,7 @@ export type DeleteAction = {
 export type MoveAction = {
   type: 'move';
   path: string[] | string;
-  payload: NodeTreeItem;
-  direction: number;
+  steps: number;
 };
 
 export type TreeReducerAction =

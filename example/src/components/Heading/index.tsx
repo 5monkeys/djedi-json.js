@@ -1,7 +1,5 @@
 import React from 'react';
-import { useEdit } from 'djedi-json';
 
-import Button from '../Button';
 import styles from './Heading.module.css';
 
 const Heading: React.FC<{ children: string; onChange?: (t: string) => void }> = ({
@@ -15,10 +13,6 @@ const Heading: React.FC<{ children: string; onChange?: (t: string) => void }> = 
     },
     [onChange]
   );
-  const { move, tree } = useEdit();
-  const { content } = tree;
-
-  const onClick = React.useCallback((step: number) => move({ ...content }, step), [content]);
 
   React.useEffect(() => {
     ref.current?.addEventListener('keyup', handleKeyDown);
@@ -30,8 +24,6 @@ const Heading: React.FC<{ children: string; onChange?: (t: string) => void }> = 
       <h1 className={styles.root} contentEditable ref={ref} suppressContentEditableWarning>
         {children}
       </h1>
-      <Button onClick={() => onClick(1)}>Move down</Button>
-      <Button onClick={() => onClick(-1)}>Move up</Button>
     </div>
   );
 };
