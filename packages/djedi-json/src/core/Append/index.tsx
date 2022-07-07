@@ -51,7 +51,7 @@ const Append: React.FC<AppendProps> = ({ onClick, config }) => {
         }
         ref={ref}
       >
-        <AddIcon />
+        <AddIcon fill="currentColor" />
       </button>
       {open && (
         <div className={styles.chooser}>
