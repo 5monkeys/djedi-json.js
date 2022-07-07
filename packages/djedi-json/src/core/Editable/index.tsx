@@ -21,9 +21,8 @@ const Editable: React.FC<{
   config: ComponentConfig;
   tree: NodeTreeItem;
   path: string[];
-  movable: boolean;
   children?: ReactNode;
-}> = ({ tree, config, children, path = [], movable }) => {
+}> = ({ tree, config, children, path = [] }) => {
   // A ref to the parent. Could potentially be used to pin something or measure it to allow content-jumping.
   const ref = React.useRef<HTMLSpanElement>(null);
 
@@ -68,7 +67,7 @@ const Editable: React.FC<{
     setTree({
       path,
       steps,
-      type: "move",
+      type: 'move',
     });
   }, []);
 
@@ -82,13 +81,13 @@ const Editable: React.FC<{
     ...(tree?.content || {}),
     ...(childrenConfig
       ? {
-        children: (
-          <>
-            {children}
-            {childrenConfig.append && <Append onClick={append} config={config} />}
-          </>
-        ),
-      }
+          children: (
+            <>
+              {children}
+              {childrenConfig.append && <Append onClick={append} config={config} />}
+            </>
+          ),
+        }
       : {}),
   };
 
@@ -115,7 +114,7 @@ const Editable: React.FC<{
           >
             <Component {...componentProps} />
 
-            {Boolean(over && (config.removable || config.editable || movable)) && (
+            {Boolean(over && (config.removable || config.editable || config.movable)) && (
               <span className={styles.toolbar}>
                 {config.editable && (
                   <button
@@ -137,18 +136,22 @@ const Editable: React.FC<{
                     <DeleteSVG fill="currentColor" />
                   </button>
                 )}
-                {movable && (
+                {config.movable && (
                   <>
-                    <button onClick={e => {
-                      e.stopPropagation();
-                      move(-1);
-                    }}>
+                    <button
+                      onClick={e => {
+                        e.stopPropagation();
+                        move(-1);
+                      }}
+                    >
                       &lt;
                     </button>
-                    <button onClick={e => {
-                      e.stopPropagation();
-                      move(1);
-                    }}>
+                    <button
+                      onClick={e => {
+                        e.stopPropagation();
+                        move(1);
+                      }}
+                    >
                       &gt;
                     </button>
                   </>

@@ -1,3 +1,5 @@
+export type Path = string[] | string;
+
 export type ReplaceAction = {
   type: 'replace';
   payload: NodeTreeItem;
@@ -10,23 +12,23 @@ export type EmptyAction = {
 export type PatchAction = {
   type: 'patch';
   payload: NodeTreeItem;
-  path: string[] | string;
+  path: Path;
 };
 
 export type AddAction = {
   type: 'add';
   payload: NodeTreeItem;
-  path: string[] | string;
+  path: Path;
 };
 
 export type DeleteAction = {
   type: 'delete';
-  path: string[] | string;
+  path: Path;
 };
 
 export type MoveAction = {
   type: 'move';
-  path: string[] | string;
+  path: Path;
   steps: number;
 };
 

@@ -36,6 +36,7 @@ const components: ComponentConfig[] = [
     type: 'component/caption-image',
     icon: <div>RC</div>,
     editOnClick: true,
+    movable: true,
     content: {
       text: CMSType.string({ label: 'description' }),
       background: CMSType.select({ options: ['black', 'grey', 'white'] }),
@@ -46,6 +47,7 @@ const components: ComponentConfig[] = [
     Component: Hero,
     type: 'component/hero',
     icon: '🦸🏽‍♀️',
+    movable: true,
     content: {
       text: CMSType.string(),
       image: UnsplashedImage(),
@@ -56,6 +58,7 @@ const components: ComponentConfig[] = [
     Component: Grid,
     type: 'component/grid',
     editable: false,
+    movable: true,
     content: CMSType.custom({
       isomorphic: true,
       children: CMSType.children({ self: false, allowed: ['component/caption-image'] }),
@@ -66,6 +69,7 @@ const components: ComponentConfig[] = [
     Component: Paragraph,
     type: 'component/paragraph',
     editOnClick: true,
+    movable: true,
     content: {
       text: CMSType.string(),
     },

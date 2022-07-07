@@ -31,7 +31,7 @@ const EditContext = React.createContext<EditContextType>({
   path: [],
   move: () => {
     // not empty
-  }
+  },
 });
 
 export const useEdit = () => React.useContext(EditContext);
