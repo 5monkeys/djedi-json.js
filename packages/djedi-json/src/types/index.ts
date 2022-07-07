@@ -1,9 +1,9 @@
-
-declare interface ComponentConfig {
+export interface ComponentConfig {
   title: string;
   description?: string;
   editable?: boolean;
   removable?: boolean;
+  movable?: boolean;
   icon?: React.ReactChild;
   Component: React.FunctionComponent<any>;
   type: string;
@@ -11,31 +11,35 @@ declare interface ComponentConfig {
   editOnClick?: boolean;
 }
 
-declare interface LeanComponentConfig {
+export interface LeanComponentConfig {
   Component: React.FunctionComponent<any>;
   type: string;
 }
 
-declare interface Config {
+export interface Config {
   components: ComponentConfig[];
   edit: EditConfig;
 }
 
-declare interface LeanConfig {
-  components: LeanComponentConfig[]
+export interface LeanConfig {
+  components: LeanComponentConfig[];
 }
 
-declare type EditConfigEntry = {
+export type EditConfigEntry = {
   Component: any;
 };
 
-declare type EditConfig = Record<string, EditConfigEntry>;
-
+export type EditConfig = Record<string, EditConfigEntry>;
 
 // Children can be either an array of NodeTreeItems or something else used by the component itself.
-declare interface NodeContentType extends Record<string, any> {
+export interface NodeContentType extends Record<string, any> {
   children?: NodeTreeItem[] | string;
 }
 
 // When saved the NodeItems receive a unique uri.
-declare type NodeTreeItem = { content: NodeContentType; type: string; uri?: string; __uri?: string };
+export type NodeTreeItem = {
+  content: NodeContentType;
+  type: string;
+  uri?: string;
+  __uri?: string;
+};

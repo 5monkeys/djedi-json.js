@@ -1,4 +1,5 @@
 import { get, set, unset } from 'lodash-es';
+import { NodeTreeItem } from '../../types';
 
 import { createEmpty } from '../Node';
 import { TreeReducerAction } from './types';
@@ -54,11 +55,11 @@ export const reducer = (state: NodeTreeItem, action: TreeReducerAction) => {
         const element = siblings[from];
 
         // implicitly handle isNaN(from) since siblings[NaN] is undefined
-        if (typeof element !== "undefined") {
+        if (typeof element !== 'undefined') {
           // perform the actual move
           siblings.splice(from, 1);
           siblings.splice(to, 0, element);
-  
+
           // add mutated array to new state
           set(nstate, path, siblings);
         }

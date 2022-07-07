@@ -8,7 +8,7 @@ import { createEmpty } from './core/Node';
 import Preview from './core/Renderer/Preview';
 import Renderer from './Renderer';
 
-import './types';
+export * from './types';
 export {
   CMS,
   CMSType,

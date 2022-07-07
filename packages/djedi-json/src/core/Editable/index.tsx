@@ -5,10 +5,13 @@ import { useCMS } from '../../contexts/cms';
 import EditContext from '../../contexts/editcontext';
 import DeleteSVG from '../../icons/delete.svg';
 import EditSVG from '../../icons/edit.svg';
+import UpSVG from '../../icons/up.svg';
+import DownSVG from '../../icons/down.svg';
 import Append from '../Append';
 import EditGroup from '../EditGroup';
 import { createEmpty } from '../Node';
 import styles from './Editable.module.css';
+import { ComponentConfig, NodeContentType, NodeTreeItem } from '../../types';
 
 /**
  * Editable, wraps the child component with some tooling for talking to the admin.
@@ -21,9 +24,8 @@ const Editable: React.FC<{
   config: ComponentConfig;
   tree: NodeTreeItem;
   path: string[];
-  movable: boolean;
   children?: ReactNode;
-}> = ({ tree, config, children, path = [], movable }) => {
+}> = ({ tree, config, children, path = [] }) => {
   // A ref to the parent. Could potentially be used to pin something or measure it to allow content-jumping.
   const ref = React.useRef<HTMLSpanElement>(null);
 
@@ -68,7 +70,7 @@ const Editable: React.FC<{
     setTree({
       path,
       steps,
-      type: "move",
+      type: 'move',
     });
   }, []);
 
@@ -82,13 +84,13 @@ const Editable: React.FC<{
     ...(tree?.content || {}),
     ...(childrenConfig
       ? {
-        children: (
-          <>
-            {children}
-            {childrenConfig.append && <Append onClick={append} config={config} />}
-          </>
-        ),
-      }
+          children: (
+            <>
+              {children}
+              {childrenConfig.append && <Append onClick={append} config={config} />}
+            </>
+          ),
+        }
       : {}),
   };
 
@@ -115,7 +117,7 @@ const Editable: React.FC<{
           >
             <Component {...componentProps} />
 
-            {Boolean(over && (config.removable || config.editable || movable)) && (
+            {Boolean(over && (config.removable || config.editable || config.movable)) && (
               <span className={styles.toolbar}>
                 {config.editable && (
                   <button
@@ -137,19 +139,23 @@ const Editable: React.FC<{
                     <DeleteSVG fill="currentColor" />
                   </button>
                 )}
-                {movable && (
+                {config.movable && (
                   <>
-                    <button onClick={e => {
-                      e.stopPropagation();
-                      move(-1);
-                    }}>
-                      &lt;
+                    <button
+                      onClick={e => {
+                        e.stopPropagation();
+                        move(-1);
+                      }}
+                    >
+                      <UpSVG fill="currentColor" />
                     </button>
-                    <button onClick={e => {
-                      e.stopPropagation();
-                      move(1);
-                    }}>
-                      &gt;
+                    <button
+                      onClick={e => {
+                        e.stopPropagation();
+                        move(1);
+                      }}
+                    >
+                      <DownSVG fill="currentColor" />
                     </button>
                   </>
                 )}

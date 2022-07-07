@@ -1,4 +1,5 @@
 import React, { RefObject } from 'react';
+import { NodeContentType, NodeTreeItem } from '../types';
 
 export type EditContextType = {
   ref: RefObject<HTMLSpanElement> | null;
@@ -31,7 +32,7 @@ const EditContext = React.createContext<EditContextType>({
   path: [],
   move: () => {
     // not empty
-  }
+  },
 });
 
 export const useEdit = () => React.useContext(EditContext);

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CMS, createConfig, Preview } from 'djedi-json';
+import { CMS, createConfig, NodeTreeItem, Preview } from 'djedi-json';
 
 import config from './config';
 

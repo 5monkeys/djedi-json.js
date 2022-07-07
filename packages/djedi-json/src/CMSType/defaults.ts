@@ -1,3 +1,4 @@
+import { EditConfig } from '../types';
 import SelectEdit, { TYPE_IDENTIFIER as SELECT_TYPE_IDENTIFIER } from './edits/Select';
 import StringEdit, { TYPE_IDENTIFIER as STRING_TYPE_IDENTIFIER } from './edits/String';
 

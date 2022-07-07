@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useCMS } from '../../contexts/cms';
 import AddIcon from '../../icons/add.svg';
+import { ComponentConfig } from '../../types';
 import styles from './Append.module.css';
 
 type AppendProps = {
