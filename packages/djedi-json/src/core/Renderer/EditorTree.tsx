@@ -11,7 +11,7 @@ import Editable from '../Editable';
  * @returns a rendered tree of components
  */
 
-const EditorTree: React.FC<{ tree: NodeTreeItem; path?: string[], draggable?: boolean, children?: ReactNode }> = ({ tree, path = [], draggable = false }) => {
+const EditorTree: React.FC<{ tree: NodeTreeItem; path?: string[], movable?: boolean, children?: ReactNode }> = ({ tree, path = [], movable = false }) => {
   const { config } = useCMS();
   const { components } = config;
 
@@ -25,12 +25,12 @@ const EditorTree: React.FC<{ tree: NodeTreeItem; path?: string[], draggable?: bo
   const { children } = tree.content;
   
   return (
-    <Editable config={Config} tree={tree} path={path} draggable={draggable}>
+    <Editable config={Config} tree={tree} path={path} movable={movable}>
       {Array.isArray(children) &&
         children?.map((child, i) => {
           const k = [...path, 'content', 'children', i.toString()];
-          const draggable = path.length === 0; // only make direct descendants of the root draggable
-          return <EditorTree draggable={draggable} tree={child} key={k.join('.')} path={k} />;
+          const movable = path.length === 0; // only make direct descendants of the root movable
+          return <EditorTree movable={movable} tree={child} key={k.join('.')} path={k} />;
         })}
     </Editable>
   );

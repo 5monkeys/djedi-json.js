@@ -21,9 +21,9 @@ const Editable: React.FC<{
   config: ComponentConfig;
   tree: NodeTreeItem;
   path: string[];
-  draggable: boolean;
+  movable: boolean;
   children?: ReactNode;
-}> = ({ tree, config, children, path = [], draggable }) => {
+}> = ({ tree, config, children, path = [], movable }) => {
   // A ref to the parent. Could potentially be used to pin something or measure it to allow content-jumping.
   const ref = React.useRef<HTMLSpanElement>(null);
 
@@ -115,7 +115,7 @@ const Editable: React.FC<{
           >
             <Component {...componentProps} />
 
-            {Boolean(over && (config.removable || config.editable || draggable)) && (
+            {Boolean(over && (config.removable || config.editable || movable)) && (
               <span className={styles.toolbar}>
                 {config.editable && (
                   <button
@@ -137,7 +137,7 @@ const Editable: React.FC<{
                     <DeleteSVG fill="currentColor" />
                   </button>
                 )}
-                {draggable && (
+                {movable && (
                   <>
                     <button onClick={e => {
                       e.stopPropagation();
