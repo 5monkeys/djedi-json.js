@@ -2,6 +2,7 @@ import React from 'react';
 
 import { createConfig } from '../core/config';
 import { TreeReducerAction } from '../core/Tree/types';
+import { Config, NodeTreeItem } from '../types';
 
 export type CMSContextType = {
   config: Config;

@@ -5,6 +5,7 @@ import Modal from '../../components/Modal';
 import { useCMS } from '../../contexts/cms';
 import { useEdit } from '../../contexts/editcontext';
 import CloseSVG from '../../icons/close.svg';
+import { ComponentConfig } from '../../types';
 import styles from './EditGroup.module.css';
 
 export type EditGroupProps = {

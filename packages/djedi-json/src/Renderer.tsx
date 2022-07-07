@@ -1,4 +1,5 @@
 import React from 'react';
+import { Config, LeanConfig, NodeTreeItem } from './types';
 
 export interface RendererProps {
   tree?: NodeTreeItem;

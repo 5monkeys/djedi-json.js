@@ -1,4 +1,5 @@
 import { get, set, unset } from 'lodash-es';
+import { NodeTreeItem } from '../../types';
 
 import { createEmpty } from '../Node';
 import { TreeReducerAction } from './types';

@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 
 import { useCMS } from '../../contexts/cms';
+import { NodeTreeItem } from '../../types';
 import Editable from '../Editable';
 
 /**

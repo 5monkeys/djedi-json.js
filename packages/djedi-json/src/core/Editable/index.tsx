@@ -11,6 +11,7 @@ import Append from '../Append';
 import EditGroup from '../EditGroup';
 import { createEmpty } from '../Node';
 import styles from './Editable.module.css';
+import { ComponentConfig, NodeContentType, NodeTreeItem } from '../../types';
 
 /**
  * Editable, wraps the child component with some tooling for talking to the admin.

@@ -1,4 +1,4 @@
-import { CMSType, createConfig } from 'djedi-json';
+import { CMSType, ComponentConfig, createConfig } from 'djedi-json';
 
 import CaptionedImage from './components/CaptionedImage';
 import Grid from './components/Grid';

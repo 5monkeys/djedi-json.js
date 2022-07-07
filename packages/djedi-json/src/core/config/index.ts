@@ -1,4 +1,5 @@
 import { DEFAULT_EDIT_MAP } from '../../CMSType/defaults';
+import { ComponentConfig, Config } from '../../types';
 
 export const validateConfig = (config: Config) => {
   // check if the edit type exists.

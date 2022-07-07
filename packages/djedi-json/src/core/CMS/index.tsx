@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 
 import CMSContext from '../../contexts/cms';
+import { Config, NodeTreeItem } from '../../types';
 import { createEmpty } from '../Node';
 import { reducer } from '../Tree';
 import { lossyDeepClone } from '../Tree/utils';
