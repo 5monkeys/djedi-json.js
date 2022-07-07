@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import cx from 'classnames';
 
 import { useCMS } from '../../contexts/cms';
@@ -22,6 +22,7 @@ const Editable: React.FC<{
   tree: NodeTreeItem;
   path: string[];
   draggable: boolean;
+  children?: ReactNode;
 }> = ({ tree, config, children, path = [], draggable }) => {
   // A ref to the parent. Could potentially be used to pin something or measure it to allow content-jumping.
   const ref = React.useRef<HTMLSpanElement>(null);
@@ -64,6 +65,7 @@ const Editable: React.FC<{
   );
 
   const moveSelf = React.useCallback((steps: number) => {
+    console.log("moving self");
     setTree({
       path,
       steps,

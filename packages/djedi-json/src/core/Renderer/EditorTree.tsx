@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { useCMS } from '../../contexts/cms';
 import Editable from '../Editable';
@@ -11,7 +11,7 @@ import Editable from '../Editable';
  * @returns a rendered tree of components
  */
 
-const EditorTree: React.FC<{ tree: NodeTreeItem; path?: string[], draggable?: boolean }> = ({ tree, path = [], draggable = false }) => {
+const EditorTree: React.FC<{ tree: NodeTreeItem; path?: string[], draggable?: boolean, children?: ReactNode }> = ({ tree, path = [], draggable = false }) => {
   const { config } = useCMS();
   const { components } = config;
 

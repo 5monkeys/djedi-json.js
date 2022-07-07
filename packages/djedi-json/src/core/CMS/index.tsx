@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import CMSContext from '../../contexts/cms';
 import { createEmpty } from '../Node';
@@ -8,6 +8,7 @@ import { lossyDeepClone } from '../Tree/utils';
 export interface CMSProps {
   config: Config;
   tree?: NodeTreeItem;
+  children?: ReactNode;
 }
 
 /**
