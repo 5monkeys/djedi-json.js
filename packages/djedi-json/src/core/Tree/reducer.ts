@@ -5,7 +5,6 @@ import { TreeReducerAction } from './types';
 import { cleanTree } from './utils';
 
 export const reducer = (state: NodeTreeItem, action: TreeReducerAction) => {
-  console.log("Reducer ran with action '%s'", action.type);
   switch (action.type) {
     case 'replace':
       return action.payload;
@@ -42,7 +41,7 @@ export const reducer = (state: NodeTreeItem, action: TreeReducerAction) => {
       return cleanTree(nstate);
     }
 
-    case "move": {
+    case 'move': {
       const nstate = { ...state };
 
       if (Array.isArray(action.path)) {

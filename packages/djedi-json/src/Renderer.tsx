@@ -21,8 +21,6 @@ const Renderer: React.FC<RendererProps> = ({ config, tree }) => {
 
   const { children, ...props } = tree.content;
 
-  console.log('tree:', tree);
-
   return (
     <Config.Component {...props} data-uri={tree.uri}>
       {Array.isArray(children)

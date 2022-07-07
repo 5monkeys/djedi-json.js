@@ -9,6 +9,7 @@ export type EditContextType = {
   patch: (p: NodeContentType) => void;
   setEdit: (v: boolean) => void;
   editing: boolean;
+  move: (steps: number) => void;
 };
 
 const EditContext = React.createContext<EditContextType>({
@@ -28,6 +29,9 @@ const EditContext = React.createContext<EditContextType>({
     // not empty
   },
   path: [],
+  move: () => {
+    // not empty
+  }
 });
 
 export const useEdit = () => React.useContext(EditContext);

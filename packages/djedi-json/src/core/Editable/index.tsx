@@ -64,8 +64,7 @@ const Editable: React.FC<{
     [path, tree, setTree]
   );
 
-  const moveSelf = React.useCallback((steps: number) => {
-    console.log("moving self");
+  const move = React.useCallback((steps: number) => {
     setTree({
       path,
       steps,
@@ -95,7 +94,7 @@ const Editable: React.FC<{
 
   return (
     <EditContext.Provider
-      value={{ editing, tree, setEdit, patch, remove, path, ref, append }}
+      value={{ editing, tree, setEdit, patch, remove, path, ref, append, move }}
     >
       {isomorphic ? (
         <Component onChange={patch} {...componentProps} />
@@ -142,13 +141,13 @@ const Editable: React.FC<{
                   <>
                     <button onClick={e => {
                       e.stopPropagation();
-                      moveSelf(-1);
+                      move(-1);
                     }}>
                       &lt;
                     </button>
                     <button onClick={e => {
                       e.stopPropagation();
-                      moveSelf(1);
+                      move(1);
                     }}>
                       &gt;
                     </button>
