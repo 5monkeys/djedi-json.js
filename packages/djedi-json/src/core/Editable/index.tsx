@@ -5,6 +5,8 @@ import { useCMS } from '../../contexts/cms';
 import EditContext from '../../contexts/editcontext';
 import DeleteSVG from '../../icons/delete.svg';
 import EditSVG from '../../icons/edit.svg';
+import UpSVG from '../../icons/up.svg';
+import DownSVG from '../../icons/down.svg';
 import Append from '../Append';
 import EditGroup from '../EditGroup';
 import { createEmpty } from '../Node';
@@ -144,7 +146,7 @@ const Editable: React.FC<{
                         move(-1);
                       }}
                     >
-                      &lt;
+                      <UpSVG fill="currentColor" />
                     </button>
                     <button
                       onClick={e => {
@@ -152,7 +154,7 @@ const Editable: React.FC<{
                         move(1);
                       }}
                     >
-                      &gt;
+                      <DownSVG fill="currentColor" />
                     </button>
                   </>
                 )}
