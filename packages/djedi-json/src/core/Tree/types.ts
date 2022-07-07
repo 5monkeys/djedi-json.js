@@ -24,7 +24,14 @@ export type DeleteAction = {
   path: string[] | string;
 };
 
+export type MoveAction = {
+  type: 'move';
+  path: string[] | string;
+  steps: number;
+};
+
 export type TreeReducerAction =
+  | MoveAction
   | ReplaceAction
   | EmptyAction
   | PatchAction

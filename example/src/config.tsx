@@ -5,6 +5,7 @@ import Grid from './components/Grid';
 import Heading from './components/Heading';
 import Hero from './components/Hero';
 import Page from './components/Page';
+import Paragraph from './components/Paragraph';
 import Unsplash, { TYPE_IDENTIFIER as UNSPLASHED_TYPE, UnsplashedImage } from './edits/Unsplashed';
 
 const components: ComponentConfig[] = [
@@ -59,6 +60,15 @@ const components: ComponentConfig[] = [
       isomorphic: true,
       children: CMSType.children({ self: false, allowed: ['component/caption-image'] }),
     }),
+  },
+  {
+    title: 'Paragraph',
+    Component: Paragraph,
+    type: 'component/paragraph',
+    editOnClick: true,
+    content: {
+      text: CMSType.string(),
+    },
   },
 ];
 

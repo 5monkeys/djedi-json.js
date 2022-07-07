@@ -20,9 +20,11 @@ const Heading: React.FC<{ children: string; onChange?: (t: string) => void }> = 
   }, [handleKeyDown]);
 
   return (
-    <h1 className={styles.root} contentEditable ref={ref} suppressContentEditableWarning>
-      {children}
-    </h1>
+    <div>
+      <h1 className={styles.root} contentEditable ref={ref} suppressContentEditableWarning>
+        {children}
+      </h1>
+    </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import cx from 'classnames';
 
 import { useCMS } from '../../contexts/cms';
@@ -21,7 +21,9 @@ const Editable: React.FC<{
   config: ComponentConfig;
   tree: NodeTreeItem;
   path: string[];
-}> = ({ tree, config, children, path = [] }) => {
+  movable: boolean;
+  children?: ReactNode;
+}> = ({ tree, config, children, path = [], movable }) => {
   // A ref to the parent. Could potentially be used to pin something or measure it to allow content-jumping.
   const ref = React.useRef<HTMLSpanElement>(null);
 
@@ -62,6 +64,14 @@ const Editable: React.FC<{
     [path, tree, setTree]
   );
 
+  const move = React.useCallback((steps: number) => {
+    setTree({
+      path,
+      steps,
+      type: "move",
+    });
+  }, []);
+
   const remove = React.useCallback(() => setTree({ type: 'delete', path }), [path, setTree]);
 
   const toggleOpen = (bool: boolean) => {
@@ -72,18 +82,20 @@ const Editable: React.FC<{
     ...(tree?.content || {}),
     ...(childrenConfig
       ? {
-          children: (
-            <>
-              {children}
-              {childrenConfig.append && <Append onClick={append} config={config} />}
-            </>
-          ),
-        }
+        children: (
+          <>
+            {children}
+            {childrenConfig.append && <Append onClick={append} config={config} />}
+          </>
+        ),
+      }
       : {}),
   };
 
   return (
-    <EditContext.Provider value={{ editing, tree, setEdit, patch, remove, path, ref, append }}>
+    <EditContext.Provider
+      value={{ editing, tree, setEdit, patch, remove, path, ref, append, move }}
+    >
       {isomorphic ? (
         <Component onChange={patch} {...componentProps} />
       ) : (
@@ -103,7 +115,7 @@ const Editable: React.FC<{
           >
             <Component {...componentProps} />
 
-            {Boolean(over && (config.removable || config.editable)) && (
+            {Boolean(over && (config.removable || config.editable || movable)) && (
               <span className={styles.toolbar}>
                 {config.editable && (
                   <button
@@ -124,6 +136,22 @@ const Editable: React.FC<{
                   >
                     <DeleteSVG fill="currentColor" />
                   </button>
+                )}
+                {movable && (
+                  <>
+                    <button onClick={e => {
+                      e.stopPropagation();
+                      move(-1);
+                    }}>
+                      &lt;
+                    </button>
+                    <button onClick={e => {
+                      e.stopPropagation();
+                      move(1);
+                    }}>
+                      &gt;
+                    </button>
+                  </>
                 )}
               </span>
             )}
