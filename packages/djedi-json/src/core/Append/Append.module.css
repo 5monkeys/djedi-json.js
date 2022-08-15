@@ -11,6 +11,10 @@
   border-radius: 100%;
 }
 
+.button svg {
+  fill: currentColor;
+}
+
 .wrapper {
   display: flex;
   margin: 10px;
