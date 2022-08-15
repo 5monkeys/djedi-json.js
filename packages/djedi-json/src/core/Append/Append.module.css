@@ -9,10 +9,10 @@
   background-color: rgba(0, 0, 0, 0.9);
   border: none;
   border-radius: 100%;
+}
 
-  svg {
-    width: 70%;
-  }
+.button svg {
+  fill: currentColor;
 }
 
 .wrapper {
