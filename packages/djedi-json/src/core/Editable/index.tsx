@@ -93,13 +93,13 @@ const Editable: React.FC<{
     ...(tree?.content || {}),
     ...(childrenConfig
       ? {
-        children: (
-          <>
-            {children}
-            {childrenConfig.append && <Append onClick={append} config={config} />}
-          </>
-        ),
-      }
+          children: (
+            <>
+              {children}
+              {childrenConfig.append && <Append onClick={append} config={config} />}
+            </>
+          ),
+        }
       : {}),
   };
 
