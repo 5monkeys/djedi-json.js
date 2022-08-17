@@ -1,4 +1,5 @@
 import React, { RefObject } from 'react';
+import { Path } from '../core/Tree/types';
 import { NodeContentType, NodeTreeItem } from '../types';
 
 export type EditContextType = {
@@ -10,7 +11,8 @@ export type EditContextType = {
   patch: (p: NodeContentType) => void;
   setEdit: (v: boolean) => void;
   editing: boolean;
-  move: (steps: number) => void;
+  shift: (steps: number) => void;
+  move: (to: Path) => void;
 };
 
 const EditContext = React.createContext<EditContextType>({
@@ -30,9 +32,12 @@ const EditContext = React.createContext<EditContextType>({
     // not empty
   },
   path: [],
-  move: () => {
+  shift: () => {
     // not empty
   },
+  move: () => {
+    // not empty
+  }
 });
 
 export const useEdit = () => React.useContext(EditContext);

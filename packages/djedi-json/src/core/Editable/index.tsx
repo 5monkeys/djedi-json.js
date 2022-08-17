@@ -12,6 +12,7 @@ import EditGroup from '../EditGroup';
 import { createEmpty } from '../Node';
 import styles from './Editable.module.css';
 import { ComponentConfig, NodeContentType, NodeTreeItem } from '../../types';
+import { Path } from '../Tree/types';
 
 /**
  * Editable, wraps the child component with some tooling for talking to the admin.
@@ -66,13 +67,21 @@ const Editable: React.FC<{
     [path, tree, setTree]
   );
 
-  const move = React.useCallback((steps: number) => {
+  const shift = React.useCallback((steps: number) => {
+    const dest = [...path];
+    const i = parseInt(dest[dest.length - 1]) + steps;
+    if (isNaN(i)) return;
+    dest[dest.length - 1] = i.toString();
+    move(dest);
+  }, [path, tree, setTree]);
+
+  const move = React.useCallback((to: Path) => {
     setTree({
-      path,
-      steps,
+      from: path,
+      to,
       type: 'move',
     });
-  }, []);
+  }, [path, tree, setTree]);
 
   const remove = React.useCallback(() => setTree({ type: 'delete', path }), [path, setTree]);
 
@@ -84,87 +93,89 @@ const Editable: React.FC<{
     ...(tree?.content || {}),
     ...(childrenConfig
       ? {
-          children: (
-            <>
-              {children}
-              {childrenConfig.append && <Append onClick={append} config={config} />}
-            </>
-          ),
-        }
+        children: (
+          <>
+            {children}
+            {childrenConfig.append && <Append onClick={append} config={config} />}
+          </>
+        ),
+      }
       : {}),
   };
 
   return (
     <EditContext.Provider
-      value={{ editing, tree, setEdit, patch, remove, path, ref, append, move }}
+      value={{ editing, tree, setEdit, patch, remove, path, ref, append, shift, move }}
     >
-      {isomorphic ? (
-        <Component onChange={patch} {...componentProps} />
-      ) : (
-        <>
-          <span
-            ref={ref}
-            onClick={config.editOnClick ? () => setEdit(true) : undefined}
-            className={cx(styles.root, { [styles.clickable]: config.editOnClick })}
-            onMouseEnter={e => {
-              e.stopPropagation();
-              toggleOpen(true);
-            }}
-            onMouseLeave={e => {
-              e.stopPropagation();
-              toggleOpen(false);
-            }}
-          >
-            <Component {...componentProps} />
+      <div data-path={path.join(".")}>
+        {isomorphic ? (
+          <Component onChange={patch} {...componentProps} />
+        ) : (
+          <>
+            <span
+              ref={ref}
+              onClick={config.editOnClick ? () => setEdit(true) : undefined}
+              className={cx(styles.root, { [styles.clickable]: config.editOnClick })}
+              onMouseEnter={e => {
+                e.stopPropagation();
+                toggleOpen(true);
+              }}
+              onMouseLeave={e => {
+                e.stopPropagation();
+                toggleOpen(false);
+              }}
+            >
+              <Component {...componentProps} />
 
-            {Boolean(over && (config.removable || config.editable || config.movable)) && (
-              <span className={styles.toolbar}>
-                {config.editable && (
-                  <button
-                    onClick={e => {
-                      e.stopPropagation();
-                      setEdit(v => !v);
-                    }}
-                  >
-                    <EditSVG fill="currentColor" />
-                  </button>
-                )}
-                {config.removable && (
-                  <button
-                    onClick={e => {
-                      e.stopPropagation();
-                      remove();
-                    }}
-                  >
-                    <DeleteSVG fill="currentColor" />
-                  </button>
-                )}
-                {config.movable && (
-                  <>
+              {Boolean(over && (config.removable || config.editable || config.movable)) && (
+                <span className={styles.toolbar}>
+                  {config.editable && (
                     <button
                       onClick={e => {
                         e.stopPropagation();
-                        move(-1);
+                        setEdit(v => !v);
                       }}
                     >
-                      <UpSVG fill="currentColor" />
+                      <EditSVG fill="currentColor" />
                     </button>
+                  )}
+                  {config.removable && (
                     <button
                       onClick={e => {
                         e.stopPropagation();
-                        move(1);
+                        remove();
                       }}
                     >
-                      <DownSVG fill="currentColor" />
+                      <DeleteSVG fill="currentColor" />
                     </button>
-                  </>
-                )}
-              </span>
-            )}
-          </span>
-          {editing && <EditGroup content={content} />}
-        </>
-      )}
+                  )}
+                  {config.movable && (
+                    <>
+                      <button
+                        onClick={e => {
+                          e.stopPropagation();
+                          shift(-1);
+                        }}
+                      >
+                        <UpSVG fill="currentColor" />
+                      </button>
+                      <button
+                        onClick={e => {
+                          e.stopPropagation();
+                          shift(1);
+                        }}
+                      >
+                        <DownSVG fill="currentColor" />
+                      </button>
+                    </>
+                  )}
+                </span>
+              )}
+            </span>
+            {editing && <EditGroup content={content} />}
+          </>
+        )}
+      </div>
     </EditContext.Provider>
   );
 };
