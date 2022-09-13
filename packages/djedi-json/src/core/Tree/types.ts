@@ -1,3 +1,5 @@
+import { NodeTreeItem } from "../../types";
+
 export type Path = string[] | string;
 
 export type ReplaceAction = {
@@ -28,14 +30,14 @@ export type DeleteAction = {
 
 export type MoveAction = {
   type: 'move';
-  path: Path;
-  steps: number;
+  from: Path;
+  to: Path;
 };
 
 export type TreeReducerAction =
-  | MoveAction
   | ReplaceAction
   | EmptyAction
   | PatchAction
   | DeleteAction
-  | AddAction;
+  | AddAction
+  | MoveAction;

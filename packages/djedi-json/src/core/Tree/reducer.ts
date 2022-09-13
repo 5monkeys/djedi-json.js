@@ -45,27 +45,39 @@ export const reducer = (state: NodeTreeItem, action: TreeReducerAction) => {
     case 'move': {
       const nstate = { ...state };
 
-      if (Array.isArray(action.path)) {
-        const path = [...action.path];
-        const leaf = path.splice(-1, 1)[0]; // path is now the path of the parent
-        const siblings = [...get(nstate, path)]; // siblings, including the item that will be moved
-        const from = parseInt(leaf);
-        const to = Math.max(Math.min(from + action.steps, siblings.length - 1), 0);
-
-        const element = siblings[from];
-
-        // implicitly handle isNaN(from) since siblings[NaN] is undefined
-        if (typeof element !== 'undefined') {
-          // perform the actual move
-          siblings.splice(from, 1);
-          siblings.splice(to, 0, element);
-
-          // add mutated array to new state
-          set(nstate, path, siblings);
-        }
-      } else {
-        // todo
+      if (!Array.isArray(action.from) || !Array.isArray(action.to)) {
+        throw new Error('move action requires arrays');
       }
+
+      const from = [...action.from];
+      const to = [...action.to];
+
+      // to and from become the path of their respective parent nodes
+      const fromIndex = parseInt(from.pop());
+      const toIndex = parseInt(to.pop());
+
+      // `fromParent` and `toParent` should reference the same array
+      // if the element is only moved within an array, otherwise the
+      // element will be removed from the fromParent array, but the
+      // change won't be reflected in the toParent array and thus not
+      // in `nstate`.
+      //
+      // In other words, don't do this:
+      // const fromParent = [...get(nstate, from)];
+      // const toParent = [...get(nstate, to)];
+      const fromParent = get(nstate, from);
+      const toParent = get(nstate, to);
+
+      const element = fromParent.splice(fromIndex, 1)[0];
+
+      if (typeof element === 'undefined') {
+        throw new Error("element doesn't exist");
+      };
+
+      toParent.splice(toIndex, 0, element);
+
+      set(nstate, from, fromParent);
+      set(nstate, to, toParent);
 
       return nstate;
     }
