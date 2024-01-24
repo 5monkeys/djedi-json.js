@@ -20,7 +20,9 @@ const EditorTree: React.FC<{ tree: NodeTreeItem; path?: string[]; children?: Rea
   const { components } = config;
 
   // find the config for this component
-  const Config = components.find(c => c.type === tree.type);
+  const Config = React.useMemo(() => {
+    return components.find(c => c.type === tree.type);
+  }, [components, tree]);
 
   if (!Config) {
     return null;

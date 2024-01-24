@@ -12,10 +12,12 @@ export interface CMSProps {
   children?: ReactNode;
 }
 
+const stringifyDeepEqual = <T,>(a: string, b: T) => a === JSON.stringify(b);
+
 /**
- * 
- TODO
- * Add nice error messages for config faults
+ * The root of the CMS and the node tree.
+ * Provides the CMSContext to all children, accessed with `useCMS`.
+ * There should only be one CMS component in the tree.
  */
 const CMS: React.FC<CMSProps> = ({
   tree: passedTree = createEmpty(''),
@@ -24,6 +26,9 @@ const CMS: React.FC<CMSProps> = ({
 }) => {
   const [tree, setTree] = React.useReducer(reducer, passedTree);
   const [config, setConfig] = React.useState<Config>(passedConfig);
+
+  const initialTree = React.useMemo(() => JSON.stringify(passedTree), [passedTree]);
+  const dirty = React.useMemo(() => !stringifyDeepEqual(initialTree, tree), [initialTree, tree]);
 
   // keep tree in sync
   React.useEffect(
@@ -35,7 +40,9 @@ const CMS: React.FC<CMSProps> = ({
   // keep config in sync
   React.useEffect(() => setConfig(passedConfig), [passedConfig]);
 
-  return <CMSContext.Provider value={{ config, tree, setTree }}>{children}</CMSContext.Provider>;
+  return (
+    <CMSContext.Provider value={{ config, dirty, tree, setTree }}>{children}</CMSContext.Provider>
+  );
 };
 
 export default CMS;
