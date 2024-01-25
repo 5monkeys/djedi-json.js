@@ -1,4 +1,4 @@
-import { NodeTreeItem } from "../../types";
+import { NodeTreeItem } from '../../types';
 
 /** clean the tree from faulty nodes */
 export const cleanTree = (t: NodeTreeItem): NodeTreeItem => {
@@ -9,7 +9,3 @@ export const cleanTree = (t: NodeTreeItem): NodeTreeItem => {
       }
     : t;
 };
-
-export function lossyDeepClone<T>(o: T) {
-  return JSON.parse(JSON.stringify(o));
-}

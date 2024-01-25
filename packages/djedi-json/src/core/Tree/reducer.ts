@@ -14,15 +14,32 @@ export const reducer = (state: NodeTreeItem, action: TreeReducerAction) => {
       return createEmpty('');
 
     case 'add': {
-      const nstate = { ...state };
+      const nstate = structuredClone(state);
       const parent = get(nstate, action.path, []);
       set(nstate, action.path, [...parent, action.payload]);
 
       return nstate;
     }
 
+    case 'insert': {
+      const nstate = structuredClone(state);
+
+      const index = Number(action.at.at(-1));
+
+      const siblingPath = action.at.slice(0, -1);
+      const siblings = get(nstate, siblingPath);
+
+      set(nstate, siblingPath, [
+        ...siblings.slice(0, index),
+        action.payload,
+        ...siblings.slice(index),
+      ]);
+
+      return nstate;
+    }
+
     case 'patch': {
-      const nstate = { ...state };
+      const nstate = structuredClone(state);
 
       if (action.path.length > 0) {
         set(nstate, action.path, action.payload);
@@ -36,14 +53,14 @@ export const reducer = (state: NodeTreeItem, action: TreeReducerAction) => {
     }
 
     case 'delete': {
-      const nstate = { ...state };
+      const nstate = structuredClone(state);
       unset(nstate, action.path);
 
       return cleanTree(nstate);
     }
 
     case 'move': {
-      const nstate = { ...state };
+      const nstate = structuredClone(state);
 
       if (!Array.isArray(action.from) || !Array.isArray(action.to)) {
         throw new Error('move action requires arrays');
@@ -72,7 +89,7 @@ export const reducer = (state: NodeTreeItem, action: TreeReducerAction) => {
 
       if (typeof element === 'undefined') {
         throw new Error("element doesn't exist");
-      };
+      }
 
       toParent.splice(toIndex, 0, element);
 

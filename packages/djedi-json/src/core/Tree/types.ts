@@ -1,4 +1,4 @@
-import { NodeTreeItem } from "../../types";
+import { NodeTreeItem } from '../../types';
 
 export type Path = string[] | string;
 
@@ -23,6 +23,12 @@ export type AddAction = {
   path: Path;
 };
 
+export type InsertAction = {
+  type: 'insert';
+  at: Path;
+  payload: NodeTreeItem;
+};
+
 export type DeleteAction = {
   type: 'delete';
   path: Path;
@@ -40,4 +46,5 @@ export type TreeReducerAction =
   | PatchAction
   | DeleteAction
   | AddAction
+  | InsertAction
   | MoveAction;

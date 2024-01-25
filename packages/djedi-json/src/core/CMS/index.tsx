@@ -4,7 +4,6 @@ import CMSContext from '../../contexts/cms';
 import { Config, NodeTreeItem } from '../../types';
 import { createEmpty } from '../Node';
 import { reducer } from '../Tree';
-import { lossyDeepClone } from '../Tree/utils';
 
 export interface CMSProps {
   config: Config;
@@ -33,7 +32,7 @@ const CMS: React.FC<CMSProps> = ({
   // keep tree in sync
   React.useEffect(
     // deep cloning the tree here ensures there's no issues with mutating the passed in object further down the tree.
-    () => setTree({ type: 'replace', payload: lossyDeepClone(passedTree) }),
+    () => setTree({ type: 'replace', payload: structuredClone(passedTree) }),
     [passedTree]
   );
 

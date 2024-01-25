@@ -1,5 +1,6 @@
-import { NodeTreeItem } from "../../types";
+import { NodeTreeItem } from '../../types';
 
-export const createEmpty = (type: string, o?: Record<string, any>): NodeTreeItem => {
-  return { content: o || {}, type };
+export const createEmpty = (type: string, content?: Record<string, any>): NodeTreeItem => {
+  content ??= {};
+  return { content, type };
 };
