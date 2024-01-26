@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { get } from 'lodash-es';
 import cx from 'classnames';
 
 import { useCMS } from '../../contexts/cms';
@@ -20,7 +21,6 @@ import { Path } from '../Tree/types';
  * @param config a Config for a single Component.
  * @returns a rendered component
  */
-
 const Editable: React.FC<{
   config: ComponentConfig;
   tree: NodeTreeItem;
@@ -30,36 +30,69 @@ const Editable: React.FC<{
   // A ref to the parent. Could potentially be used to pin something or measure it to allow content-jumping.
   const ref = React.useRef<HTMLSpanElement>(null);
 
-  // DERIVED
-  const { Component, content = {} } = config;
-  const { isomorphic } = content;
-
-  const childrenConfig = Object.values(content).find(
-    (c: ComponentConfig) => c.type === 'input/children'
-  ); // todo: Use a nice way to find all active child-like input types
-
   // CONTEXTS
-  const { setTree } = useCMS();
+  const { tree: CMSTree, setTree } = useCMS();
+
+  // DERIVED
+  const { Component, content: configContent = {} } = config;
+  const { isomorphic } = configContent;
+
+  const childrenConfig = React.useMemo(() => {
+    return Object.values(configContent).find((c: ComponentConfig) => c.type === 'input/children');
+  }, [configContent]); // todo: Use a nice way to find all active child-like input types
+
+  /** The path to this component in the entire tree. */
+  const treePath = React.useMemo(() => path.join('.'), [path]);
+
+  const parentType: string | null = React.useMemo(() => {
+    const parentPath = path.slice(0, -3);
+    const parent = get(CMSTree, parentPath);
+    return parent?.type ?? null;
+  }, [path, tree]);
 
   // STATES
   const [editing, setEdit] = React.useState(false);
   const [over, setOver] = React.useState(false);
 
   const append = React.useCallback(
-    (type: string, o?: Record<string, any>) => {
+    (type: string, content?: Record<string, any>) => {
       setTree({
-        payload: createEmpty(type, o),
+        payload: createEmpty(type, content),
         type: 'add',
         path: [...path, 'content', 'children'],
+      });
+    },
+    [path, tree, setTree]
+  );
+
+  const insert = React.useCallback(
+    (type: string, opts?: { index?: number; content?: Record<string, any> }) => {
+      let { index, content } = opts ?? {};
+
+      // Default to the index below the inserting component
+      index ??= Number.parseInt(path.at(-1)) + 1;
+
+      if (Number.isNaN(index)) {
+        console.error('Could not insert, invalid index');
+        return;
+      }
+
+      const at = [...path];
+      at[at.length - 1] = String(index);
+
+      setTree({
+        payload: createEmpty(type, content),
+        type: 'insert',
+        at,
       });
     },
     [path, setTree]
   );
 
   const patch = React.useCallback(
-    (_content: NodeContentType) => {
+    (content: NodeContentType) => {
       setTree({
-        payload: { ...tree, content: _content },
+        payload: { ...tree, content },
         path,
         type: 'patch',
       });
@@ -67,49 +100,69 @@ const Editable: React.FC<{
     [path, tree, setTree]
   );
 
-  const shift = React.useCallback((steps: number) => {
-    const dest = [...path];
-    const i = parseInt(dest[dest.length - 1]) + steps;
-    if (isNaN(i)) return;
-    dest[dest.length - 1] = i.toString();
-    move(dest);
-  }, [path, tree, setTree]);
+  const shift = React.useCallback(
+    (steps: number) => {
+      const dest = [...path];
+      const i = parseInt(dest[dest.length - 1]) + steps;
+      if (isNaN(i)) return;
+      dest[dest.length - 1] = i.toString();
+      move(dest);
+    },
+    [path, tree, setTree]
+  );
 
-  const move = React.useCallback((to: Path) => {
-    setTree({
-      from: path,
-      to,
-      type: 'move',
-    });
-  }, [path, tree, setTree]);
+  const move = React.useCallback(
+    (to: Path) => {
+      setTree({
+        from: path,
+        to,
+        type: 'move',
+      });
+    },
+    [path, tree, setTree]
+  );
 
   const remove = React.useCallback(() => setTree({ type: 'delete', path }), [path, setTree]);
 
-  const toggleOpen = (bool: boolean) => {
-    setOver(bool);
-  };
+  const toggleOpen = React.useCallback((bool: boolean) => setOver(bool), [setOver]);
 
-  const componentProps = {
-    ...(tree?.content || {}),
-    ...(childrenConfig
-      ? {
-          children: (
-            <>
-              {children}
-              {childrenConfig.append && <Append onClick={append} config={config} />}
-            </>
-          ),
-        }
-      : {}),
-  };
+  const componentProps = React.useMemo(() => {
+    return {
+      ...tree?.content,
+      ...(childrenConfig
+        ? {
+            children: (
+              <>
+                {children}
+                {childrenConfig.append && <Append onClick={append} config={config} />}
+              </>
+            ),
+          }
+        : {}),
+    };
+  }, [tree, childrenConfig, append, config, children]);
 
   return (
     <EditContext.Provider
-      value={{ editing, tree, setEdit, patch, remove, path, ref, append, shift, move }}
+      value={{
+        editing,
+        tree,
+        setEdit,
+        patch,
+        remove,
+        path,
+        config,
+        parentType,
+        ref,
+        append,
+        insert,
+        shift,
+        move,
+      }}
     >
-      <div data-path={path.join(".")}>
+      <div data-path={treePath}>
         {isomorphic ? (
-          <Component onChange={patch} {...componentProps} />
+          <Component key={tree.__ref} onChange={patch} {...componentProps} />
         ) : (
           <>
             <span
@@ -172,7 +225,7 @@ const Editable: React.FC<{
                 </span>
               )}
             </span>
-            {editing && <EditGroup content={content} />}
+            {editing && <EditGroup content={configContent} />}
           </>
         )}
       </div>

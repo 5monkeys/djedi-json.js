@@ -1,15 +1,29 @@
-import { NodeTreeItem } from "../../types";
+import { NodeTreeItem } from '../../types';
 
-/** clean the tree from faulty nodes */
-export const cleanTree = (t: NodeTreeItem): NodeTreeItem => {
-  return Array.isArray(t.content?.children)
+/** Clean the tree from faulty nodes. */
+export const cleanTree = (node: NodeTreeItem): NodeTreeItem => {
+  return Array.isArray(node.content?.children)
     ? {
-        ...t,
-        content: { ...t.content, children: t.content?.children.filter(Boolean).map(cleanTree) },
+        ...node,
+        content: {
+          ...node.content,
+          children: node.content?.children.filter(Boolean).map(cleanTree),
+        },
       }
-    : t;
+    : node;
 };
 
-export function lossyDeepClone<T>(o: T) {
-  return JSON.parse(JSON.stringify(o));
-}
+/** Clean the tree from faulty nodes. */
+export const addRefsToTree = (node: NodeTreeItem): NodeTreeItem => {
+  if (!node.__ref) node.__ref = crypto.randomUUID();
+
+  return Array.isArray(node.content?.children)
+    ? {
+        ...node,
+        content: {
+          ...node.content,
+          children: node.content?.children.map(addRefsToTree),
+        },
+      }
+    : node;
+};

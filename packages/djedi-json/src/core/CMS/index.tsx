@@ -4,7 +4,7 @@ import CMSContext from '../../contexts/cms';
 import { Config, NodeTreeItem } from '../../types';
 import { createEmpty } from '../Node';
 import { reducer } from '../Tree';
-import { lossyDeepClone } from '../Tree/utils';
+import { addRefsToTree } from '../Tree/utils';
 
 export interface CMSProps {
   config: Config;
@@ -12,30 +12,33 @@ export interface CMSProps {
   children?: ReactNode;
 }
 
+const stringifyDeepEqual = <T,>(stringified: string, o: T) => stringified === JSON.stringify(o);
+
 /**
- * 
- TODO
- * Add nice error messages for config faults
+ * The root of the CMS and the node tree.
+ * Provides the CMSContext to all children, accessed with `useCMS`.
+ * There should only be one CMS component in the tree.
  */
 const CMS: React.FC<CMSProps> = ({
   tree: passedTree = createEmpty(''),
   config: passedConfig,
   children,
 }) => {
-  const [tree, setTree] = React.useReducer(reducer, passedTree);
+  const [tree, setTree] = React.useReducer(reducer, passedTree, addRefsToTree);
   const [config, setConfig] = React.useState<Config>(passedConfig);
 
-  // keep tree in sync
-  React.useEffect(
-    // deep cloning the tree here ensures there's no issues with mutating the passed in object further down the tree.
-    () => setTree({ type: 'replace', payload: lossyDeepClone(passedTree) }),
-    [passedTree]
-  );
+  const initialTree = React.useMemo(() => JSON.stringify(passedTree), [passedTree]);
+  const dirty = React.useMemo(() => !stringifyDeepEqual(initialTree, tree), [initialTree, tree]);
 
-  // keep config in sync
+  // Keep the tree in sync.
+  React.useEffect(() => setTree({ type: 'replace', payload: passedTree }), [passedTree]);
+
+  // Keep the config in sync.
   React.useEffect(() => setConfig(passedConfig), [passedConfig]);
 
-  return <CMSContext.Provider value={{ config, tree, setTree }}>{children}</CMSContext.Provider>;
+  return (
+    <CMSContext.Provider value={{ config, dirty, tree, setTree }}>{children}</CMSContext.Provider>
+  );
 };
 
 export default CMS;
