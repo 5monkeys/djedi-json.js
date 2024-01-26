@@ -6,6 +6,7 @@ on:
     branches:
       - main
     paths:
+      - '.github/workflows/release-djedi-json.yml'
       - 'packages/djedi-json/package.json'
 
 jobs:
@@ -21,7 +22,6 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
       - name: Build package
-        working-directory: ./packages/djedi-json
         run: npm run build
       - name: Publish package
         uses: JS-DevTools/npm-publish@v3
