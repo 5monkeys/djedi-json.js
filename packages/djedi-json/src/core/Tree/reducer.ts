@@ -3,64 +3,70 @@ import { NodeTreeItem } from '../../types';
 
 import { createEmpty } from '../Node';
 import { TreeReducerAction } from './types';
-import { cleanTree } from './utils';
+import { addRefsToTree, cleanTree } from './utils';
 
 export const reducer = (state: NodeTreeItem, action: TreeReducerAction) => {
   switch (action.type) {
-    case 'replace':
-      return action.payload;
+    case 'replace': {
+      const tree = structuredClone(action.payload);
+      const treeWithRefs = addRefsToTree(tree);
 
-    case 'empty':
+      return treeWithRefs;
+    }
+
+    case 'empty': {
       return createEmpty('');
+    }
 
     case 'add': {
-      const nstate = structuredClone(state);
-      const parent = get(nstate, action.path, []);
-      set(nstate, action.path, [...parent, action.payload]);
+      const tree = structuredClone(state);
 
-      return nstate;
+      const parent = get(tree, action.path, []);
+      set(tree, action.path, [...parent, action.payload]);
+
+      return tree;
     }
 
     case 'insert': {
-      const nstate = structuredClone(state);
+      const tree = structuredClone(state);
 
       const index = Number(action.at.at(-1));
 
       const siblingPath = action.at.slice(0, -1);
-      const siblings = get(nstate, siblingPath);
+      const siblings = get(tree, siblingPath);
 
-      set(nstate, siblingPath, [
+      set(tree, siblingPath, [
         ...siblings.slice(0, index),
         action.payload,
         ...siblings.slice(index),
       ]);
 
-      return nstate;
+      return tree;
     }
 
     case 'patch': {
-      const nstate = structuredClone(state);
+      const tree = structuredClone(state);
 
       if (action.path.length > 0) {
-        set(nstate, action.path, action.payload);
+        set(tree, action.path, action.payload);
       } else {
         Object.entries(action.payload).forEach(([k, v]) => {
-          nstate[k] = v;
+          tree[k] = v;
         });
       }
 
-      return nstate;
+      return tree;
     }
 
     case 'delete': {
-      const nstate = structuredClone(state);
-      unset(nstate, action.path);
+      const tree = structuredClone(state);
+      unset(tree, action.path);
 
-      return cleanTree(nstate);
+      return cleanTree(tree);
     }
 
     case 'move': {
-      const nstate = structuredClone(state);
+      const tree = structuredClone(state);
 
       if (!Array.isArray(action.from) || !Array.isArray(action.to)) {
         throw new Error('move action requires arrays');
@@ -82,8 +88,8 @@ export const reducer = (state: NodeTreeItem, action: TreeReducerAction) => {
       // In other words, don't do this:
       // const fromParent = [...get(nstate, from)];
       // const toParent = [...get(nstate, to)];
-      const fromParent = get(nstate, from);
-      const toParent = get(nstate, to);
+      const fromParent = get(tree, from);
+      const toParent = get(tree, to);
 
       const element = fromParent.splice(fromIndex, 1)[0];
 
@@ -93,10 +99,10 @@ export const reducer = (state: NodeTreeItem, action: TreeReducerAction) => {
 
       toParent.splice(toIndex, 0, element);
 
-      set(nstate, from, fromParent);
-      set(nstate, to, toParent);
+      set(tree, from, fromParent);
+      set(tree, to, toParent);
 
-      return nstate;
+      return tree;
     }
 
     default:

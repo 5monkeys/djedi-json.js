@@ -37,9 +37,10 @@ export interface NodeContentType extends Record<string, any> {
 }
 
 // When saved the NodeItems receive a unique uri.
-export type NodeTreeItem = {
+export interface NodeTreeItem {
   content: NodeContentType;
   type: string;
   uri?: string;
   __uri?: string;
-};
+  __ref?: ReturnType<typeof crypto.randomUUID>;
+}

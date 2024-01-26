@@ -34,19 +34,15 @@ const Editable: React.FC<{
   const { tree: CMSTree, setTree } = useCMS();
 
   // DERIVED
-  const { Component, content = {} } = config;
-  const { isomorphic } = content;
+  const { Component, content: configContent = {} } = config;
+  const { isomorphic } = configContent;
 
   const childrenConfig = React.useMemo(() => {
-    return Object.values(content).find((c: ComponentConfig) => c.type === 'input/children');
-  }, [content]); // todo: Use a nice way to find all active child-like input types
+    return Object.values(configContent).find((c: ComponentConfig) => c.type === 'input/children');
+  }, [configContent]); // todo: Use a nice way to find all active child-like input types
 
   /** The path to this component in the entire tree. */
   const treePath = React.useMemo(() => path.join('.'), [path]);
-  const uuid = React.useMemo(() => crypto.randomUUID?.(), []);
-
-  /** The React key. Just the path is not unique enough to provide an identity during insertion and deletion. */
-  const key = React.useMemo(() => `${treePath}+${uuid}`, [treePath, uuid]);
 
   const parentType: string | null = React.useMemo(() => {
     const parentPath = path.slice(0, -3);
@@ -70,7 +66,9 @@ const Editable: React.FC<{
   );
 
   const insert = React.useCallback(
-    (type: string, { index, content }: { index?: number; content?: Record<string, any> }) => {
+    (type: string, opts?: { index?: number; content?: Record<string, any> }) => {
+      let { index, content } = opts ?? {};
+
       // Default to the index below the inserting component
       index ??= Number.parseInt(path.at(-1)) + 1;
 
@@ -164,7 +162,7 @@ const Editable: React.FC<{
     >
       <div data-path={treePath}>
         {isomorphic ? (
-          <Component key={key} onChange={patch} {...componentProps} />
+          <Component key={tree.__ref} onChange={patch} {...componentProps} />
         ) : (
           <>
             <span
@@ -227,7 +225,7 @@ const Editable: React.FC<{
                 </span>
               )}
             </span>
-            {editing && <EditGroup content={content} />}
+            {editing && <EditGroup content={configContent} />}
           </>
         )}
       </div>

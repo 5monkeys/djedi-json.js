@@ -4,6 +4,7 @@ import CMSContext from '../../contexts/cms';
 import { Config, NodeTreeItem } from '../../types';
 import { createEmpty } from '../Node';
 import { reducer } from '../Tree';
+import { addRefsToTree } from '../Tree/utils';
 
 export interface CMSProps {
   config: Config;
@@ -11,7 +12,7 @@ export interface CMSProps {
   children?: ReactNode;
 }
 
-const stringifyDeepEqual = <T,>(a: string, b: T) => a === JSON.stringify(b);
+const stringifyDeepEqual = <T,>(stringified: string, o: T) => stringified === JSON.stringify(o);
 
 /**
  * The root of the CMS and the node tree.
@@ -23,20 +24,16 @@ const CMS: React.FC<CMSProps> = ({
   config: passedConfig,
   children,
 }) => {
-  const [tree, setTree] = React.useReducer(reducer, passedTree);
+  const [tree, setTree] = React.useReducer(reducer, passedTree, addRefsToTree);
   const [config, setConfig] = React.useState<Config>(passedConfig);
 
   const initialTree = React.useMemo(() => JSON.stringify(passedTree), [passedTree]);
   const dirty = React.useMemo(() => !stringifyDeepEqual(initialTree, tree), [initialTree, tree]);
 
-  // keep tree in sync
-  React.useEffect(
-    // deep cloning the tree here ensures there's no issues with mutating the passed in object further down the tree.
-    () => setTree({ type: 'replace', payload: structuredClone(passedTree) }),
-    [passedTree]
-  );
+  // Keep the tree in sync.
+  React.useEffect(() => setTree({ type: 'replace', payload: passedTree }), [passedTree]);
 
-  // keep config in sync
+  // Keep the config in sync.
   React.useEffect(() => setConfig(passedConfig), [passedConfig]);
 
   return (

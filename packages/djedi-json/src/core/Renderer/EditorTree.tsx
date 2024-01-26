@@ -5,13 +5,12 @@ import { NodeTreeItem } from '../../types';
 import Editable from '../Editable';
 
 /**
- *
+ * Renders a tree of components.
  * @param config Config to use for resolving the components to be rendered
  * @param tree a NodeTree to be walked
  * @param edit boolean - if true wraps the target component in an Edit-component.
  * @returns a rendered tree of components
  */
-
 const EditorTree: React.FC<{ tree: NodeTreeItem; path?: string[]; children?: ReactNode }> = ({
   tree,
   path = [],
@@ -34,8 +33,8 @@ const EditorTree: React.FC<{ tree: NodeTreeItem; path?: string[]; children?: Rea
     <Editable config={Config} tree={tree} path={path}>
       {Array.isArray(children) &&
         children?.map((child, i) => {
-          const k = [...path, 'content', 'children', i.toString()];
-          return <EditorTree tree={child} key={k.join('.')} path={k} />;
+          const childPath = [...path, 'content', 'children', i.toString()];
+          return <EditorTree tree={child} key={child.__ref} path={childPath} />;
         })}
     </Editable>
   );

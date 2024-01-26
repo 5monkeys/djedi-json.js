@@ -27,7 +27,7 @@ export type EditContextType = {
    */
   insert: (
     type: NodeTreeItem['type'],
-    opts: { index?: number; content?: Record<string, any> }
+    opts?: { index?: number; content?: Record<string, any> }
   ) => void;
 
   /** Remove the current component from the tree. */
@@ -55,7 +55,7 @@ export type EditContextType = {
 const EditContext = React.createContext<EditContextType>({
   ref: null,
   editing: false,
-  tree: { content: {}, type: 'unknown' },
+  tree: { content: {}, type: 'unknown', __ref: 'not-actually-a-real-uuid' },
   setEdit: () => {
     // not empty
   },
