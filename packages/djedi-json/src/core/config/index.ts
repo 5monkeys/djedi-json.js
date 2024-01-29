@@ -10,6 +10,7 @@ export const validateConfig = (config: Config) => {
         console.log(`%c✅ ${cc.type}:${k} validated as ${type}`, 'color: darkgreen');
         return true;
       }
+
       //eslint-disable-next-line no-console
       console.log(`%c❌ edit type missing for ${cc.type}`, 'color: red');
       return false;
@@ -30,11 +31,11 @@ export const createConfig = (passedConfig: Partial<Config>): Config => {
   const edit = {
     ...DEFAULT_EDIT_MAP,
     // overwrite the defaults with the user supplied ones, in case something is needed
-    ...(passedConfig.edit || {}),
+    ...passedConfig.edit,
   };
   const config = {
     ...passedConfig,
-    components: [...(passedConfig?.components || [])].map(createNodeConfig),
+    components: [...(passedConfig?.components ?? [])].map(createNodeConfig),
     edit: edit,
   };
 

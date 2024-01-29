@@ -1,12 +1,10 @@
 {
   "name": "djedi-json",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "main": "build/index.js",
   "module": "build/index.esm.js",
   "types": "build/index.d.ts",
-  "files": [
-    "build"
-  ],
+  "files": ["build"],
   "scripts": {
     "start": "rollup -c -w",
     "build": "rollup -c",

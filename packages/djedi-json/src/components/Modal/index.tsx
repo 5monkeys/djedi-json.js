@@ -8,15 +8,12 @@ export interface ModalProps
   onClose?: () => void;
 }
 const Modal: React.FC<ModalProps> = ({ children, onClose, className, ...props }) => {
+  const handleOnClick = React.useCallback(() => onClose?.(), [onClose]);
+
   return (
     <>
       <style>{`body{overflow: "hidden";}`}</style>
-      <div
-        className={styles.backdrop}
-        onClick={() => {
-          onClose && onClose();
-        }}
-      >
+      <div className={styles.backdrop} onClick={handleOnClick}>
         <div className={cx(styles.root, className)} {...props} onClick={e => e.stopPropagation()}>
           {children}
         </div>
