@@ -5,11 +5,12 @@ import { CMSEditProps } from '../../types';
 import { SelectProps } from './type';
 
 export const TYPE_IDENTIFIER = 'input/select';
+
 export const type = (settings: SelectProps) => {
   return {
     nullable: true,
     multiple: false,
-    ...(settings || {}),
+    ...settings,
     type: TYPE_IDENTIFIER,
   };
 };

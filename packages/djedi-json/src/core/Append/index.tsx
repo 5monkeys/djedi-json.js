@@ -35,29 +35,36 @@ const Append: React.FC<AppendProps> = ({ onClick, config }) => {
   const ref = React.useRef<HTMLButtonElement>(null);
   const { config: CMSConfig } = useCMS();
 
-  const possibleChildren = filterChildren(CMSConfig.components, config);
+  const possibleChildren = React.useMemo(
+    () => filterChildren(CMSConfig.components, config),
+    [config, CMSConfig.components]
+  );
 
-  const handleClick = (type: string) => {
+  const handleClick = React.useCallback((type: string) => {
     setOpen(false);
     onClick(type);
-  };
+  }, []);
+
+  const handleIconClick = React.useCallback(() => {
+    possibleChildren.length === 1 ? handleClick(possibleChildren[0].type) : setOpen(v => !v);
+  }, [possibleChildren]);
+
+  const handleChildClick = React.useCallback(
+    (type: string) => () => handleClick(type),
+    [handleClick]
+  );
 
   return (
     <div className={styles.wrapper}>
-      <button
-        className={styles.button}
-        onClick={() =>
-          possibleChildren.length === 1 ? handleClick(possibleChildren[0].type) : setOpen(v => !v)
-        }
-        ref={ref}
-      >
+      <button className={styles.button} onClick={handleIconClick} ref={ref}>
         <AddIcon />
       </button>
+
       {open && (
         <div className={styles.chooser}>
           {possibleChildren.map(s => (
-            <button onClick={() => handleClick(s.type)} key={s.type}>
-              {s.icon || s.title.substring(0, 1)}
+            <button onClick={handleChildClick(s.type)} key={s.type}>
+              {s.icon ?? s.title.substring(0, 1)}
             </button>
           ))}
         </div>
@@ -66,4 +73,4 @@ const Append: React.FC<AppendProps> = ({ onClick, config }) => {
   );
 };
 
-export default Append;
+export default React.memo(Append);

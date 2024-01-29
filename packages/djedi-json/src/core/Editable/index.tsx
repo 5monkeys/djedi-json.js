@@ -124,7 +124,36 @@ const Editable: React.FC<{
 
   const remove = React.useCallback(() => setTree({ type: 'delete', path }), [path, setTree]);
 
+  const handleRemove = React.useCallback(() => remove(), [remove]);
+
   const toggleOpen = React.useCallback((bool: boolean) => setOver(bool), [setOver]);
+
+  const handleOpen = React.useCallback(
+    (open: boolean) => (e: React.MouseEvent) => {
+      e.stopPropagation();
+      toggleOpen(open);
+    },
+    []
+  );
+
+  const handleEdit = React.useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    setEdit(v => !v);
+  }, []);
+
+  const handleSetEdit = React.useCallback(() => {
+    if (config.editOnClick) {
+      return () => setEdit(true);
+    }
+  }, [config.editOnClick]);
+
+  const handleShift = React.useCallback(
+    (by: -1 | 1) => (e: React.MouseEvent) => {
+      e.stopPropagation();
+      shift(by);
+    },
+    [shift]
+  );
 
   const componentProps = React.useMemo(() => {
     return {
@@ -142,82 +171,49 @@ const Editable: React.FC<{
     };
   }, [tree, childrenConfig, append, config, children]);
 
+  const contextValue = React.useMemo(
+    // prettier-ignore
+    () => ({ editing, tree, setEdit, patch, remove, path, config, parentType, ref, append, insert, shift, move }),
+    // prettier-ignore
+    [editing, tree, setEdit, patch, remove, path, config, parentType, ref, append, insert, shift, move]
+  );
+
   return (
-    <EditContext.Provider
-      value={{
-        editing,
-        tree,
-        setEdit,
-        patch,
-        remove,
-        path,
-        config,
-        parentType,
-        ref,
-        append,
-        insert,
-        shift,
-        move,
-      }}
-    >
-      <div data-path={treePath}>
+    <EditContext.Provider value={contextValue}>
+      <div className={styles.path} data-path={treePath}>
         {isomorphic ? (
           <Component key={tree.__ref} onChange={patch} {...componentProps} />
         ) : (
           <>
             <span
               ref={ref}
-              onClick={config.editOnClick ? () => setEdit(true) : undefined}
+              onClick={handleSetEdit()}
               className={cx(styles.root, { [styles.clickable]: config.editOnClick })}
-              onMouseEnter={e => {
-                e.stopPropagation();
-                toggleOpen(true);
-              }}
-              onMouseLeave={e => {
-                e.stopPropagation();
-                toggleOpen(false);
-              }}
+              onMouseEnter={handleOpen(true)}
+              onMouseLeave={handleOpen(false)}
             >
               <Component {...componentProps} />
 
               {Boolean(over && (config.removable || config.editable || config.movable)) && (
                 <span className={styles.toolbar}>
                   {config.editable && (
-                    <button
-                      onClick={e => {
-                        e.stopPropagation();
-                        setEdit(v => !v);
-                      }}
-                    >
+                    <button onClick={handleEdit}>
                       <EditSVG fill="currentColor" />
                     </button>
                   )}
+
                   {config.removable && (
-                    <button
-                      onClick={e => {
-                        e.stopPropagation();
-                        remove();
-                      }}
-                    >
+                    <button onClick={handleRemove}>
                       <DeleteSVG fill="currentColor" />
                     </button>
                   )}
+
                   {config.movable && (
                     <>
-                      <button
-                        onClick={e => {
-                          e.stopPropagation();
-                          shift(-1);
-                        }}
-                      >
+                      <button onClick={handleShift(-1)}>
                         <UpSVG fill="currentColor" />
                       </button>
-                      <button
-                        onClick={e => {
-                          e.stopPropagation();
-                          shift(1);
-                        }}
-                      >
+                      <button onClick={handleShift(1)}>
                         <DownSVG fill="currentColor" />
                       </button>
                     </>
@@ -233,4 +229,4 @@ const Editable: React.FC<{
   );
 };
 
-export default Editable;
+export default React.memo(Editable);

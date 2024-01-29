@@ -36,9 +36,9 @@ const CMS: React.FC<CMSProps> = ({
   // Keep the config in sync.
   React.useEffect(() => setConfig(passedConfig), [passedConfig]);
 
-  return (
-    <CMSContext.Provider value={{ config, dirty, tree, setTree }}>{children}</CMSContext.Provider>
-  );
+  const value = React.useMemo(() => ({ config, dirty, tree, setTree }), [config, dirty, tree]);
+
+  return <CMSContext.Provider value={value}>{children}</CMSContext.Provider>;
 };
 
 export default CMS;

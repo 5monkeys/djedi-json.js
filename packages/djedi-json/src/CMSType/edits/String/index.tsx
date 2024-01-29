@@ -8,7 +8,7 @@ export const TYPE_IDENTIFIER = 'input/string';
 
 export const type = (settings: Partial<StringProps> = {}) => {
   return {
-    ...(settings || {}),
+    ...settings,
     type: TYPE_IDENTIFIER,
   };
 };
@@ -19,18 +19,22 @@ const String: React.FC<StringProps & CMSEditProps<string>> = ({
   onChange,
   settings,
 }) => {
+  const handleOnChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.value);
+  }, []);
+
   return (
     <label className={inputStyles.label}>
       <span className={inputStyles.labelText}>{label}</span>
       <input
-        {...(settings || {})}
+        {...settings}
         value={value}
         className={inputStyles.input}
         type="text"
-        onChange={e => onChange(e.target.value)}
+        onChange={handleOnChange}
       />
     </label>
   );
 };
 
-export default String;
+export default React.memo(String);
