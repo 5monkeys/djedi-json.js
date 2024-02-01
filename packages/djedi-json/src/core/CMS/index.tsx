@@ -4,7 +4,7 @@ import CMSContext from '../../contexts/cms';
 import { Config, NodeTreeItem } from '../../types';
 import { createEmpty } from '../Node';
 import { reducer } from '../Tree';
-import { addRefsToTree } from '../Tree/utils';
+import * as Tree from '../Tree/utils';
 
 export interface CMSProps {
   config: Config;
@@ -12,7 +12,12 @@ export interface CMSProps {
   children?: ReactNode;
 }
 
-const stringifyDeepEqual = <T,>(stringified: string, o: T) => stringified === JSON.stringify(o);
+/**
+ * Check if the tree has changed using stringified compare.
+ */
+const treeHasChanged = (stringified: string, tree: NodeTreeItem) => {
+  return stringified !== JSON.stringify(Tree.onlyContent(tree));
+};
 
 /**
  * The root of the CMS and the node tree.
@@ -24,11 +29,15 @@ const CMS: React.FC<CMSProps> = ({
   config: passedConfig,
   children,
 }) => {
-  const [tree, setTree] = React.useReducer(reducer, passedTree, addRefsToTree);
+  const [tree, setTree] = React.useReducer(reducer, passedTree, Tree.addRefs);
   const [config, setConfig] = React.useState<Config>(passedConfig);
 
-  const initialTree = React.useMemo(() => JSON.stringify(passedTree), [passedTree]);
-  const dirty = React.useMemo(() => !stringifyDeepEqual(initialTree, tree), [initialTree, tree]);
+  /** Used to check if the tree has changed. Stringified to make dirty checks a bit faster. */
+  const initialTree = React.useMemo(() => {
+    return JSON.stringify(Tree.onlyContent(passedTree));
+  }, [passedTree]);
+
+  const dirty = React.useMemo(() => treeHasChanged(initialTree, tree), [initialTree, tree]);
 
   // Keep the tree in sync.
   React.useEffect(() => setTree({ type: 'replace', payload: passedTree }), [passedTree]);

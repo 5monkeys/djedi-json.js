@@ -3,15 +3,13 @@ import { NodeTreeItem } from '../../types';
 
 import { createEmpty } from '../Node';
 import { TreeReducerAction } from './types';
-import { addRefsToTree, cleanTree } from './utils';
+import * as Tree from './utils';
 
 export const reducer = (state: NodeTreeItem, action: TreeReducerAction) => {
   switch (action.type) {
     case 'replace': {
       const tree = structuredClone(action.payload);
-      const treeWithRefs = addRefsToTree(tree);
-
-      return treeWithRefs;
+      return Tree.addRefs(tree);
     }
 
     case 'empty': {
@@ -61,8 +59,7 @@ export const reducer = (state: NodeTreeItem, action: TreeReducerAction) => {
     case 'delete': {
       const tree = structuredClone(state);
       unset(tree, action.path);
-
-      return cleanTree(tree);
+      return Tree.omitFalsy(tree);
     }
 
     case 'move': {
