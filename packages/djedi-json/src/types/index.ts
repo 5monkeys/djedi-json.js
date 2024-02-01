@@ -41,6 +41,8 @@ export interface NodeTreeItem {
   content: NodeContentType;
   type: string;
   uri?: string;
+  chosen?: boolean;
+  selected?: boolean;
   __uri?: string;
   __ref?: ReturnType<typeof crypto.randomUUID>;
 }
