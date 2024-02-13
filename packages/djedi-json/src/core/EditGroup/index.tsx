@@ -17,7 +17,7 @@ const EditGroup: React.FC<EditGroupProps> = ({ content }) => {
   const { patch, editing, tree, setEdit } = useEdit();
 
   const c: ComponentConfig | undefined = React.useMemo(
-    () => config.components.find(t => t.type === tree.type),
+    () => config.components.find(({ type }) => type === tree.type),
     [config, tree]
   );
 
@@ -30,30 +30,31 @@ const EditGroup: React.FC<EditGroupProps> = ({ content }) => {
 
   const handleSetEdit = React.useCallback((edit: boolean) => () => setEdit(edit), [setEdit]);
 
+  const renderedComponents = React.useMemo(() => {
+    return Object.entries(content).map(([k, editConfig]) => {
+      const { type, ...editProps } = editConfig;
+      const { Component } = config.edit[type];
+
+      return (
+        <section className={styles.layout} key={k}>
+          <Component
+            label={k}
+            value={tree?.content[k] ?? undefined}
+            {...editProps}
+            onChange={handleChange(k)}
+          />
+        </section>
+      );
+    });
+  }, [content, tree, handleChange, config.edit]);
+
   return editing ? (
     <Modal onClose={handleSetEdit(false)}>
       <div className={styles.separate}>
         <h2 className={styles.title}>{c?.title ?? ''}</h2>
         <p>{c?.description ?? ''}</p>
 
-        {Object.entries(content).map(([k, editConfig]) => {
-          // for now; opt out of displaying children as a prop here.
-          if (k === 'children') return null;
-
-          const { type, ...editProps } = editConfig;
-          const { Component } = config.edit[type];
-
-          return (
-            <section className={styles.layout} key={k}>
-              <Component
-                label={k}
-                value={tree?.content[k] ?? undefined}
-                {...editProps}
-                onChange={handleChange(k)}
-              />
-            </section>
-          );
-        })}
+        {renderedComponents}
 
         <Button onClick={handleSetEdit(false)} className={styles.close}>
           <CloseSVG width="24px" fill="currentColor" />
@@ -63,4 +64,4 @@ const EditGroup: React.FC<EditGroupProps> = ({ content }) => {
   ) : null;
 };
 
-export default EditGroup;
+export default React.memo(EditGroup);

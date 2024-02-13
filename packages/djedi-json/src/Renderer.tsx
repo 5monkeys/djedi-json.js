@@ -7,30 +7,33 @@ export interface RendererProps {
 }
 
 const Renderer: React.FC<RendererProps> = ({ config, tree }) => {
-  if (tree === undefined) {
-    return null;
-  }
+  if (tree == null) return null;
+
   const { components } = config;
 
-  // find the config for this component
-  const Config = components.find(c => c.type === tree.type);
+  /** Find the config for this component. */
+  const Config = React.useMemo(() => {
+    return components.find(({ type }) => type === tree.type);
+  }, [components, tree.type]);
 
   // No type found. This is not a component.
-  if (!Config) {
-    return null;
-  }
+  if (!Config) return null;
 
   const { children, ...props } = tree.content;
 
+  const renderedChildren = React.useMemo(() => {
+    if (Array.isArray(children)) {
+      return children.map((t: NodeTreeItem, i: number) => (
+        <Renderer key={i} tree={t} config={config} />
+      ));
+    } else return children;
+  }, [children, config]);
+
   return (
     <Config.Component {...props} data-uri={tree.uri}>
-      {Array.isArray(children)
-        ? children.map((t: NodeTreeItem, i: number) => (
-            <Renderer key={i} tree={t} config={config} />
-          ))
-        : children}
+      {renderedChildren}
     </Config.Component>
   );
 };
 
-export default Renderer;
+export default React.memo(Renderer);

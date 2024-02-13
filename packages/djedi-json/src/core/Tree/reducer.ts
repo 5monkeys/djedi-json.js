@@ -73,8 +73,8 @@ export const reducer = (state: NodeTreeItem, action: TreeReducerAction) => {
       const to = [...action.to];
 
       // to and from become the path of their respective parent nodes
-      const fromIndex = parseInt(from.pop());
-      const toIndex = parseInt(to.pop());
+      const fromIndex = Number.parseInt(from.pop());
+      const toIndex = Number.parseInt(to.pop());
 
       // `fromParent` and `toParent` should reference the same array
       // if the element is only moved within an array, otherwise the
