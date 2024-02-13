@@ -221,6 +221,7 @@ const Editable: React.FC<{
                 </span>
               )}
             </span>
+
             {editing && <EditGroup content={configContent} />}
           </>
         )}

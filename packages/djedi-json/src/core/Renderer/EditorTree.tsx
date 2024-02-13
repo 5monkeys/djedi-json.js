@@ -20,28 +20,27 @@ const EditorTree: React.FC<{ tree: NodeTreeItem; path?: string[]; children?: Rea
 
   // find the config for this component
   const Config = React.useMemo(() => {
-    return components.find(c => c.type === tree.type);
+    return components.find(({ type }) => type === tree.type);
   }, [components, tree]);
 
-  if (!Config) {
-    return null;
-  }
+  if (!Config) return null;
 
   const { children } = tree.content;
 
+  const renderedChildren = React.useMemo(() => {
+    if (Array.isArray(children)) {
+      return children?.map((child, i) => {
+        const childPath = [...path, 'content', 'children', String(i)];
+        return <EditorTree tree={child} key={child.__ref} path={childPath} />;
+      });
+    }
+  }, [children, path]);
+
   return (
     <Editable config={Config} tree={tree} path={path}>
-      {Array.isArray(children) &&
-        children?.map((child, i) => {
-          const childPath = [...path, 'content', 'children', i.toString()];
-          return <EditorTree tree={child} key={child.__ref} path={childPath} />;
-        })}
+      {renderedChildren}
     </Editable>
   );
-
-  // This tree has no children. Render as is.
-
-  // return <Editable config={Config} data={item.content} key={index} path={path} index={index} />;
 };
 
-export default EditorTree;
+export default React.memo(EditorTree);
