@@ -17,20 +17,23 @@ const Renderer: React.FC<RendererProps> = ({ config, tree }) => {
   }, [components, tree.type]);
 
   // No type found. This is not a component.
-  if (!Config) return null;
+  if (!Config) {
+    console.error(`No component found for type: ${tree.type}`);
+    return null;
+  }
 
   const { children, ...props } = tree.content;
 
   const renderedChildren = React.useMemo(() => {
     if (Array.isArray(children)) {
-      return children.map((t: NodeTreeItem, i: number) => (
-        <Renderer key={i} tree={t} config={config} />
-      ));
-    } else return children;
+      return children.map((t, i) => <Renderer key={t.__ref ?? i} tree={t} config={config} />);
+    } else {
+      return children;
+    }
   }, [children, config]);
 
   return (
-    <Config.Component {...props} data-uri={tree.uri}>
+    <Config.Component {...props} data-uri={tree.uri} __ref={tree.__ref}>
       {renderedChildren}
     </Config.Component>
   );
